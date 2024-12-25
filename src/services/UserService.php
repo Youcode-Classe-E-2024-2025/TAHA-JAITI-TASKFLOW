@@ -1,5 +1,6 @@
 <?php
 
+//service handles business logic such as validating input and sanitizing data
 class UserService extends Service {
     private $userModel;
     private $authService;
@@ -22,5 +23,10 @@ class UserService extends Service {
         $this->userModel->setRole(str_secure($data->role));
 
         $this->userModel->addUser();
+    }
+
+    public function login($email, $pass) {
+        $user = $this->authService->login($email, $pass);
+        return $user;
     }
 }

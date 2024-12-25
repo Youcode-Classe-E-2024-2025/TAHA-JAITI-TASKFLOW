@@ -14,5 +14,9 @@ $router->addRoute('POST', '/register', function() use ($userController) {
     $userController->registerUser();
 });
 
+$router->addRoute('POST', '/login', function() use ($userController) {
+    $userController->loginUser();
+});
+
 
 $router->handleRequest($_SERVER['REQUEST_METHOD'], parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));

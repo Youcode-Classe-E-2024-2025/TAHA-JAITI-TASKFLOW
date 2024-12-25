@@ -43,4 +43,22 @@ class User {
         return $stmt->execute();
     }
 
+    public function login ($email, $pass) {
+        $sql = "SELECT * FROM $this->table WHERE email = :email";
+
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->bindParam(':email', $email);
+
+        $stmt->execute();
+
+        $user = $stmt->fetch();
+
+        if (!$user) {
+            return false;
+        }
+
+        return $user;
+    }
+
 }

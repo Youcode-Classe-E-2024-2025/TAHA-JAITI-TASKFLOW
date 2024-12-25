@@ -1,5 +1,6 @@
 <?php
 
+//handling the authentication seperately from the user service
 class AuthService {
     private $userModel;
 
@@ -12,6 +13,10 @@ class AuthService {
 
         if (!$user){
             throw new Exception('Invalid email or password');
+        }
+
+        if (!$this->verifyPass($pass, $user['password'])){
+            throw new Exception('Invalid password');
         }
 
         $_SESSION['user_id'] = $user['id'];

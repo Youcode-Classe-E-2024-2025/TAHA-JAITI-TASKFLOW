@@ -70,7 +70,7 @@ class Database {
     }
 
     public function fetch() {
-        return $this->stmt->fetch(PDO::FETCH_ASSOC);
+        return $this->stmt->fetch(PDO::FETCH_OBJ);
     }
 
     //result as assoc array
@@ -78,7 +78,7 @@ class Database {
         return $this->stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    //result as assoc array
+    //result as an object array
     public function fetchSet() {
         return $this->stmt->fetchAll(PDO::FETCH_OBJ);
     }

@@ -23,7 +23,7 @@ class User {
         $this->conn->bind(':password', $this->password);
         $this->conn->bind(':role', $this->role);
 
-        $query->execute();
+        $this->conn->execute();
 
         return $query;
     }

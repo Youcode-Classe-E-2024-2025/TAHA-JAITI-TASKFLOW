@@ -14,11 +14,18 @@ class User {
     }
 
     public function addUser() {
-        $sql = "INSERT INTO $this->table VALUES (username = :username, email = :email, password = :password, role = :role)";
+        $sql = "INSERT INTO $this->table (username, email, password, role) 
+        VALUES (:username,:email ,:password, :role)";
 
         $query = $this->conn->query($sql);
-        
+        $this->conn->bind(':username', $this->username);
+        $this->conn->bind(':email', $this->email);
+        $this->conn->bind(':password', $this->password);
+        $this->conn->bind(':role', $this->role);
 
+        $query->execute();
+
+        return $query;
     }
 
 }

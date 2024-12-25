@@ -2,9 +2,11 @@
 
 class UserService extends Service {
     private $userModel;
+    private $authService;
     public function __construct($db, $table) {
         parent::__construct($db, $table);
         $this->userModel = new User($db);
+        $this->authService = new AuthService($this->userModel);
     }
 
     public function registerUser ($data) {
@@ -12,7 +14,7 @@ class UserService extends Service {
             throw new Exception('All fields are required');
         }
 
-        $hashedPassword = password_hash(str_secure($data->password), PASSWORD_BCRYPT);
+        $hashedPassword = $this->authService->hashPass(str_secure($data->password));
         
         $this->userModel->setUsername(str_secure($data->username));
         $this->userModel->setEmail(str_secure($data->email));
@@ -21,5 +23,4 @@ class UserService extends Service {
 
         $this->userModel->addUser();
     }
-
 }

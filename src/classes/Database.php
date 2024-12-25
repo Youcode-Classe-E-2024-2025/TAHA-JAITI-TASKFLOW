@@ -7,11 +7,13 @@ class Database {
     private $user = DB_USER;
     private $password = DB_PASS;
     private $pdo;
+    private $stmt;
 
     public function __construct() {
         $this->connect();
     }
 
+    //connecting to database
     public function connect(): void {
         $dsn = "pgsql:host={$this->host};port={$this->port};dbname={$this->dbname}";
 
@@ -26,12 +28,62 @@ class Database {
         }
     }
 
+    //getting the connection
     public function getConnection (): PDO {
         return $this->pdo;
     }
 
+    //closing connection
     public function closeConnection(): void {
         $this->pdo = null;
         echo 'Connection closed';
+    }
+
+    //query
+    public function query($sql) {
+        $this->stmt = $this->pdo->prepare($sql);
+    }
+
+    //bind parameters
+    public function bind($param, $value, $type = null){
+        if(is_null($type)){
+            switch(true){
+                case is_int($value):
+                    $type = PDO::PARAM_INT;
+                    break;
+                case is_bool($value):
+                    $type = PDO::PARAM_BOOL;
+                    break;
+                case is_null($value):
+                    $type = PDO::PARAM_NULL;
+                    break;
+                default:
+                    $type = PDO::PARAM_STR;
+            }
+        }
+
+        $this->stmt->bindValue($param, $value, $type);
+    }
+
+    public function execute() {
+        return $this->stmt->execute();
+    }
+
+    public function fetch() {
+        return $this->stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    //result as assoc array
+    public function fetchAssoc() {
+        return $this->stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    //result as assoc array
+    public function fetchSet() {
+        return $this->stmt->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public function rowCount() {
+        return $this->stmt->rowCount();
     }
 }

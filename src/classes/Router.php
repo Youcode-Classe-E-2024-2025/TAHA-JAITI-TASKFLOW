@@ -2,7 +2,7 @@
 class Router {
     private $routes = [];
 
-    public function addRoute($method, $path, $callback) {
+    public function addRoute(string $method, string $path, callable $callback): void {
         $this->routes[] = [
             'method' => strtoupper($method),
             'path' => $path,
@@ -16,9 +16,7 @@ class Router {
                 return call_user_func($route['callback']);
             }
         }
-        
-        http_response_code(404);
-        echo json_encode(['message' => 'Not found']);
-        return null;
+
+        http_response_code(404);   
     }
 }

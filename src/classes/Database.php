@@ -21,7 +21,6 @@ class Database {
             $this->pdo = new PDO($dsn, $this->user, $this->password);
             $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            echo 'Connected';
         } catch (PDOException $e) {
             echo 'Connection failed: ' . $e->getMessage();
             die();
@@ -42,6 +41,7 @@ class Database {
     //query
     public function query($sql) {
         $this->stmt = $this->pdo->prepare($sql);
+        return $this->stmt;
     }
 
     //bind parameters

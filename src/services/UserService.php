@@ -12,10 +12,11 @@ class UserService extends Service {
             throw new Exception('All fields are required');
         }
 
-        $this->userModel->username = str_secure($data->username);
-        $this->userModel->email = str_secure($data->email);
-        $this->userModel->password = str_secure($data->password);
-        $this->userModel->role = str_secure($data->role);
+        
+        $this->userModel->setUsername($data->username);
+        $this->userModel->setEmail($data->email);
+        $this->userModel->setPassword($data->password);
+        $this->userModel->setRole($data->role);
 
         $this->userModel->addUser();
     }

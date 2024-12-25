@@ -3,29 +3,44 @@
 
 class User {
     private $conn;
-    private $table = 'Users';
-    public $username;
-    public $email;
-    public $password;
-    public $role;
+    private $table = 'users';
+    private $username;
+    private $email;
+    private $password;
+    private $role;
 
-    public function __construct($db){
+    public function __construct($db,){
         $this->conn = $db;
+    }
+
+    public function setUsername($username) {
+        $this->username = $username;
+    }
+
+    public function setEmail($email) {
+        $this->email = $email;
+    }
+
+    public function setPassword($password) {
+        $this->password = $password;
+    }
+
+    public function setRole($role) {
+        $this->role = $role;
     }
 
     public function addUser() {
         $sql = "INSERT INTO $this->table (username, email, password, role) 
         VALUES (:username,:email ,:password, :role)";
 
-        $query = $this->conn->query($sql);
-        $this->conn->bind(':username', $this->username);
-        $this->conn->bind(':email', $this->email);
-        $this->conn->bind(':password', $this->password);
-        $this->conn->bind(':role', $this->role);
+        $stmt = $this->conn->prepare($sql);
 
-        $this->conn->execute();
+        $stmt->bindParam(':username', $this->username);
+        $stmt->bindParam(':email', $this->email);
+        $stmt->bindParam(':password', $this->password);
+        $stmt->bindParam(':role', $this->role);
 
-        return $query;
+        return $stmt->execute();
     }
 
 }

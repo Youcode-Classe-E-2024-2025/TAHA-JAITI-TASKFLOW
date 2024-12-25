@@ -8,37 +8,20 @@ require_once __DIR__ . './helpers/debug.php';
 
 //AUTO LOADER
 spl_autoload_register(function ($className) {
-    // Convert namespace to file path
-    $file = __DIR__ . '/classes/' . str_replace('\\', '/', $className) . '.php';
+    $directories = [
+        __DIR__ . '/classes',
+        __DIR__ . '/controllers',
+        __DIR__ . '/services',
+        __DIR__ . '/models',
+    ];
 
-    if (file_exists($file)) {
-        require_once $file;
-    }
-});
+    $classPath = str_replace('\\', DIRECTORY_SEPARATOR, $className) . '.php';
 
-spl_autoload_register(function ($className) {
-    // Convert namespace to file path
-    $file = __DIR__ . '/controllers/' . str_replace('\\', '/', $className) . '.php';
-
-    if (file_exists($file)) {
-        require_once $file;
-    }
-});
-
-spl_autoload_register(function ($className) {
-    // Convert namespace to file path
-    $file = __DIR__ . '/services/' . str_replace('\\', '/', $className) . '.php';
-
-    if (file_exists($file)) {
-        require_once $file;
-    }
-});
-
-spl_autoload_register(function ($className) {
-    // Convert namespace to file path
-    $file = __DIR__ . '/models/' . str_replace('\\', '/', $className) . '.php';
-
-    if (file_exists($file)) {
-        require_once $file;
+    foreach ($directories as $directory) {
+        $file = $directory . DIRECTORY_SEPARATOR . $classPath;
+        if (file_exists($file)) {
+            require_once $file;
+            return;
+        }
     }
 });

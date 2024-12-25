@@ -1,8 +1,5 @@
 <?php
 
-require_once __DIR__ . '../loader.php';
-require_once __DIR__ . '../models/UserModel.php';
-
 class UserService extends Service {
     private $userModel;
     public function __construct($db, $table) {
@@ -22,6 +19,5 @@ class UserService extends Service {
 
         $this->userModel->addUser();
     }
-
 
 }

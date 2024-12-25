@@ -12,11 +12,12 @@ class UserService extends Service {
             throw new Exception('All fields are required');
         }
 
+        $hashedPassword = password_hash(str_secure($data->password), PASSWORD_BCRYPT);
         
-        $this->userModel->setUsername($data->username);
-        $this->userModel->setEmail($data->email);
-        $this->userModel->setPassword($data->password);
-        $this->userModel->setRole($data->role);
+        $this->userModel->setUsername(str_secure($data->username));
+        $this->userModel->setEmail(str_secure($data->email));
+        $this->userModel->setPassword($hashedPassword);
+        $this->userModel->setRole(str_secure($data->role));
 
         $this->userModel->addUser();
     }

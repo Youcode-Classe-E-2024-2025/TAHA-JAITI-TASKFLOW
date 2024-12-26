@@ -44,7 +44,7 @@ class UserController extends Controller
 
             $this->userService->login($email, $pass);
 
-            $this->successResponse($data, 'User logged in successfully');
+            $this->successResponse([$data,[$_SESSION['role'], $_SESSION['user_id']]], 'User logged in successfully');
         } catch (Exception $e) {
             $this->errResponse($e->getMessage());
         }

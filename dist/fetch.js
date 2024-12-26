@@ -7,20 +7,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { createLogin, handleLogin } from "./login.js";
-let userId = sessionStorage.getItem('user_id') || null;
-let role = sessionStorage.getItem('role') || null;
-const root = document.getElementById('root');
-if (!root) {
-    throw new Error('Root element not found');
-}
-if (!userId) {
-    root.appendChild(createLogin());
-    const loginForm = document.getElementById('loginForm');
-    if (loginForm) {
-        loginForm.onsubmit = (event) => __awaiter(void 0, void 0, void 0, function* () {
-            event.preventDefault();
-            yield handleLogin();
-        });
+const fetchData = (url) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const response = yield fetch(url);
+        const data = yield response.json();
+        if (response.ok) {
+            return data;
+        }
+        else {
+            throw new Error('failed to fetch data');
+        }
     }
-}
+    catch (err) {
+        console.error('Error', err);
+        alert('Error fetching dashboard stats');
+        throw err;
+    }
+});
+export default fetchData;

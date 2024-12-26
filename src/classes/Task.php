@@ -47,7 +47,8 @@ abstract class Task {
         $stmt->bindParam(':created_by', $this->createdBy);
 
         if ($stmt->execute()) {
-            $this->id = $stmt->fetch(PDO::FETCH_OBJ)->id;
+            $this->id = $this->conn->lastInsertId();
+            return true;
         }
 
         return false;

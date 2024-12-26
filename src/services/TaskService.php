@@ -5,12 +5,15 @@ session_start();
 class TaskService extends Service{
     private $taskModel;
     
-    public function __construct($db, $table){
+    public function __construct($db, $table, $type){
         parent::__construct($db, $table);
-        $this->taskModel = new Bug($db);
+        
+        $model = ucfirst($type);
+        $this->taskModel = new $model($db);
+        
     }
 
-    public function createBug($data){
+    public function createTask($data){
         if (empty($data->title) || empty($data->description) ||  empty($data->status)) {
             throw new Exception('All fields are required');
         }

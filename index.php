@@ -9,7 +9,6 @@ $conn = $db->getConnection();
 $router = new Router();
 
 $userController = new UserController($conn);
-$taskController = new TaskController($conn);
 
 $router->addRoute('POST', '/register', function() use ($userController) {
     $userController->registerUser();
@@ -19,11 +18,14 @@ $router->addRoute('POST', '/login', function() use ($userController) {
     $userController->loginUser();
 });
 
-$router->addRoute('POST', '/createbug', function() use ($taskController) {
-    $taskController->createBug();
+$router->addRoute('POST', '/create', function() use ($conn) {
+    $taskType = $_GET['type'] ?? null;
+    $taskController = new TaskController($conn,$taskType);
+    $taskController->createTask();
 });
 
-$router->addRoute('POST', '/assignuser', function() use ($taskController) {
+$router->addRoute('POST', '/assignuser', function() use ($conn) {
+    $taskController = new TaskController($conn);
     $taskController->assignUser();
 });
 

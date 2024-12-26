@@ -2,12 +2,19 @@
 
 class TaskController extends Controller {
     private $taskService;
+    private $type;
 
-    public function __construct($db){
-        $this->taskService = new TaskService($db, 'Tasks');
+    public function __construct($db, $type = null){
+        $allowedTypes = ['bug', 'feature']; //task types
+        if ($type && !in_array($type, $allowedTypes)) {
+            throw new Exception('Invalid task type provided');
+        }
+
+        $this->type = $type;
+        $this->taskService = new TaskService($db, 'Tasks', $this->type);
     }
 
-    public function createBug() {
+    public function createTask() {
         try {
             $data = json_decode(file_get_contents('php://input'));
 
@@ -17,7 +24,7 @@ class TaskController extends Controller {
                 return;
             }
 
-            $this->taskService->createBug($data);
+            $this->taskService->createTask($data);
 
             $this->successResponse($data, 'Task created successfully');
         } catch (Exception $e) {

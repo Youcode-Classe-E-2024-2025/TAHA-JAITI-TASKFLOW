@@ -1,9 +1,8 @@
-import fetchData from "./fetch.js";
 
 export const createLogin = () => {
     const loginElement = document.createElement('div');
     loginElement.id = 'loginContainer';
-    loginElement.className = 'class="min-h-screen bg-gray-900 flex items-center justify-center';
+    loginElement.className = 'class="h-full w-full flex items-center justify-center';
     loginElement.innerHTML = `
             <div class="bg-gray-800 p-8 rounded-sm shadow-md w-96">
                 <h2 class="text-2xl font-bold text-purple-500 mb-6">Login to TaskFlow</h2>
@@ -40,8 +39,8 @@ export const handleLogin = async () => {
         const email = data.get('email') as string;
         const password = data.get('password') as string;
 
+
         // send a reuqest the server
-    
         try {
             const response = await fetch('http://localhost/login', {
                 method: 'POST',
@@ -55,7 +54,9 @@ export const handleLogin = async () => {
 
             if (response.ok){
                 console.log('Login successful', result);
-                
+
+                sessionStorage.setItem('user_id', String(result.data.user_Id));
+                sessionStorage.setItem('role', result.data.role);
             }
 
         } catch (err) {

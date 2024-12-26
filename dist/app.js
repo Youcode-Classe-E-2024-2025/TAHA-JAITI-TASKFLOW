@@ -8,19 +8,27 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import { createLogin, handleLogin } from "./login.js";
-let userId = sessionStorage.getItem('user_id') || null;
-let role = sessionStorage.getItem('role') || null;
+const userId = sessionStorage.getItem('user_id') || null;
+const role = sessionStorage.getItem('role') || null;
+console.log(sessionStorage);
 const root = document.getElementById('root');
+function clearRoot() {
+    root.innerHTML = "";
+}
 if (!root) {
     throw new Error('Root element not found');
 }
-if (!userId) {
-    root.appendChild(createLogin());
-    const loginForm = document.getElementById('loginForm');
-    if (loginForm) {
-        loginForm.onsubmit = (event) => __awaiter(void 0, void 0, void 0, function* () {
-            event.preventDefault();
-            yield handleLogin();
-        });
+function renderLogin() {
+    if (!userId && !role) {
+        clearRoot();
+        root.appendChild(createLogin());
+        const loginForm = document.getElementById('loginForm');
+        if (loginForm) {
+            loginForm.onsubmit = (event) => __awaiter(this, void 0, void 0, function* () {
+                event.preventDefault();
+                yield handleLogin();
+            });
+        }
     }
 }
+renderLogin();

@@ -42,7 +42,7 @@ export const handleLogin = async () => {
 
         // send a reuqest the server
         try {
-            const response = await fetch('http://localhost/login', {
+            const response = await fetch('http://localhost/api/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

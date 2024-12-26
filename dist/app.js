@@ -20,7 +20,6 @@ if (!root) {
 }
 function renderLogin() {
     if (!userId && !role) {
-        clearRoot();
         root.appendChild(createLogin());
         const loginForm = document.getElementById('loginForm');
         const link = document.getElementById('loginLink');
@@ -31,13 +30,13 @@ function renderLogin() {
             loginForm.onsubmit = (event) => __awaiter(this, void 0, void 0, function* () {
                 event.preventDefault();
                 yield handleLogin();
+                navigateTo(event, '/');
             });
         }
     }
 }
 function renderRegister() {
     if (!userId && !role) {
-        clearRoot();
         root.appendChild(createRegister());
         const registerForm = document.getElementById('registerForm');
         const link = document.getElementById('registerLink');
@@ -61,6 +60,7 @@ function router() {
     const path = window.location.pathname;
     const route = routes[path];
     if (route) {
+        clearRoot();
         route();
     }
     else {

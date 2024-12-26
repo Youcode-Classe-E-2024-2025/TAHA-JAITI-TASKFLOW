@@ -47,7 +47,7 @@ export const handleRegister = async () => {
 
         // send a reuqest the server
         try {
-            const response = await fetch('http://localhost/register', {
+            const response = await fetch('http://localhost/api/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

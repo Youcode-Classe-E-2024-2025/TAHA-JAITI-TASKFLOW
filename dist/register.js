@@ -52,7 +52,7 @@ export const handleRegister = () => __awaiter(void 0, void 0, void 0, function* 
         const role = "employee";
         // send a reuqest the server
         try {
-            const response = yield fetch('http://localhost/register', {
+            const response = yield fetch('http://localhost/api/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

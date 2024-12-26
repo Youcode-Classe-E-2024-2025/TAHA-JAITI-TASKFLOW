@@ -39,4 +39,4 @@ $router->addRoute('GET', '/', function (){
     exit;
 });
 
-$router->handleRequest($_SERVER['REQUEST_METHOD'], parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+$router->handleRequest($_SERVER['REQUEST_METHOD'], isset($_GET['url']) ? '/' . $_GET['url'] : '/');

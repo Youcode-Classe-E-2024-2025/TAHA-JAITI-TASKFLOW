@@ -16,7 +16,6 @@ if (!root){
 
 function renderLogin() {
     if (!userId && !role){
-        clearRoot();
         root.appendChild(createLogin());
         const loginForm = document.getElementById('loginForm') as HTMLFormElement;
         const link = document.getElementById('loginLink') as HTMLAnchorElement;
@@ -28,6 +27,7 @@ function renderLogin() {
             loginForm.onsubmit = async (event) => {
                 event.preventDefault();
                 await handleLogin();
+                navigateTo(event, '/');
             }
         }
     }
@@ -35,7 +35,6 @@ function renderLogin() {
 
 function renderRegister(){
     if (!userId && !role){
-        clearRoot();
         root.appendChild(createRegister());
         const registerForm = document.getElementById('registerForm') as HTMLFormElement;
         const link = document.getElementById('registerLink') as HTMLAnchorElement;
@@ -64,6 +63,7 @@ function router () {
     const path = window.location.pathname;
     const route = routes[path];
     if (route){
+        clearRoot();
         route();
     } else {
         renderLogin();

@@ -46,7 +46,7 @@ export const handleLogin = () => __awaiter(void 0, void 0, void 0, function* () 
         const password = data.get('password');
         // send a reuqest the server
         try {
-            const response = yield fetch('http://localhost/login', {
+            const response = yield fetch('http://localhost/api/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

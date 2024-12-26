@@ -14,14 +14,11 @@ class TaskService extends Service{
             if (class_exists($model)){
                 $this->taskModel = new $model($db);
             } else {
-                throw new Exception("Task model doesn not exist");
+                throw new Exception("Task model does not exist");
             }
         } else {
             $this->taskModel = new Task($db);
         }
-
-        
-        
     }
 
     public function createTask($data){
@@ -44,6 +41,16 @@ class TaskService extends Service{
 
         $this->taskModel->setId(str_secure($data->task_id));
         $this->taskModel->assignUser($data->user_id);
+    }
+
+    public function changeStatus($data) {
+        if (empty($data->task_id || empty($data->status))){
+            throw new Exception('All fields are required');
+        }
+
+        $this->taskModel->setId(str_secure($data->task_id));
+        $this->taskModel->setStatus(str_secure($data->status));
+        $this->taskModel->applyStatus();
     }
 
 }

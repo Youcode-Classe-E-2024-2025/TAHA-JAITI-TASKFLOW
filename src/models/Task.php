@@ -8,7 +8,7 @@ class Task {
     protected $title;
     protected $description;
     protected $status;
-    protected $type;
+    protected $type = 'basic';
     protected $createdBy;
 
     public function __construct($db){
@@ -96,7 +96,19 @@ class Task {
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
 
-    // abstract public function updateTask();
+    public function applyStatus(){
+        $sql = "UPDATE $this->table SET status = :status WHERE id = :id";
 
-    // abstract public function deleteTask();
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->bindParam(':status', $this->status);
+        $stmt->bindParam(':id', $this->id);
+
+        if ($stmt->execute()){
+            return true;
+        } else {
+            throw new Exception('Failed to update status');
+        }
+    }
+
 }

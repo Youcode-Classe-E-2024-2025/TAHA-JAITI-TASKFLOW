@@ -13,7 +13,7 @@ CREATE TABLE tasks (
     title VARCHAR(255) NOT NULL,
     description TEXT,
     status VARCHAR(50) CHECK (status IN ('to-do', 'in-progress', 'completed')) NOT NULL,
-    type VARCHAR(50) CHECK (type IN ('bug', 'feature')) NOT NULL,
+    type VARCHAR(50) CHECK (type IN ('bug', 'feature','basic')) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     assigned_to INT REFERENCES users(id) ON DELETE SET NULL,

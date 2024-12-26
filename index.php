@@ -29,4 +29,9 @@ $router->addRoute('POST', '/assigntask', function() use ($conn) {
     $taskController->assignUser();
 });
 
+$router->addRoute('POST', '/changestatus', function() use ($conn) {
+    $taskController = new TaskController($conn);
+    $taskController->changeStatus();
+});
+
 $router->handleRequest($_SERVER['REQUEST_METHOD'], parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));

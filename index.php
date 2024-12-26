@@ -34,4 +34,9 @@ $router->addRoute('POST', '/changestatus', function() use ($conn) {
     $taskController->changeStatus();
 });
 
+$router->addRoute('GET', '/', function (){
+    header('Location: /public/index.html');
+    exit;
+});
+
 $router->handleRequest($_SERVER['REQUEST_METHOD'], parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));

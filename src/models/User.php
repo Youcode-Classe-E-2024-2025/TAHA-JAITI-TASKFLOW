@@ -55,7 +55,7 @@ class User {
         $user = $stmt->fetch();
 
         if (!$user) {
-            return false;
+            return null;
         }
 
         return $user;

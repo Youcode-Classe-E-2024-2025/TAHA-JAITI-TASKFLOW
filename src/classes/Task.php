@@ -45,7 +45,6 @@ abstract class Task {
 
         if ($stmt->execute()) {
             $this->id = $stmt->fetch(PDO::FETCH_OBJ)->id;
-            return $this->id;
         }
 
         return false;

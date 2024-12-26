@@ -9,11 +9,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 import { createLogin, handleLogin } from "./login.js";
 import { createRegister, handleRegister } from "./register.js";
+import { createHeader } from "./header.js";
 const userId = sessionStorage.getItem('user_id') || null;
 const role = sessionStorage.getItem('role') || null;
 const root = document.getElementById('root');
 function clearRoot() {
     root.innerHTML = "";
+    root.appendChild(createHeader());
 }
 if (!root) {
     throw new Error('Root element not found');

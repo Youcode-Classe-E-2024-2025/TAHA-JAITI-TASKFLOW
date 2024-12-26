@@ -23,7 +23,7 @@ export const createRegister = () => {
                         class="input" />
                 </div>
                 <button type="submit"
-                    class="btn_primary">
+                    class="btn_primary w-full">
                     Register
                 </button>
             </form>

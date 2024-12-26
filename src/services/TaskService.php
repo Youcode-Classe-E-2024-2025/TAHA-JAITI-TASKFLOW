@@ -5,11 +5,22 @@ session_start();
 class TaskService extends Service{
     private $taskModel;
     
-    public function __construct($db, $table, $type){
+    public function __construct($db, $table, $type = null){
         parent::__construct($db, $table);
         
-        $model = ucfirst($type);
-        $this->taskModel = new $model($db);
+        if ($type){
+            $model = ucfirst($type);
+
+            if (class_exists($model)){
+                $this->taskModel = new $model($db);
+            } else {
+                throw new Exception("Task model doesn not exist");
+            }
+        } else {
+            $this->taskModel = new Task($db);
+        }
+
+        
         
     }
 

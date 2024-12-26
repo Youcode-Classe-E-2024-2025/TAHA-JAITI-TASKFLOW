@@ -24,7 +24,7 @@ $router->addRoute('POST', '/create', function() use ($conn) {
     $taskController->createTask();
 });
 
-$router->addRoute('POST', '/assignuser', function() use ($conn) {
+$router->addRoute('POST', '/assigntask', function() use ($conn) {
     $taskController = new TaskController($conn);
     $taskController->assignUser();
 });

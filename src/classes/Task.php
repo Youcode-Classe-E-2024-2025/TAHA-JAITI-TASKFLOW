@@ -1,6 +1,6 @@
 <?php
 
-abstract class Task {
+class Task {
     protected $conn;
     protected $table = 'tasks';
 

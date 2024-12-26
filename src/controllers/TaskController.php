@@ -24,4 +24,22 @@ class TaskController extends Controller {
             $this->errResponse($e->getMessage());
         }
     }
+
+    public function assignUser() {
+        try {
+            $data = json_decode(file_get_contents('php://input'));
+
+            if (empty($data)) {
+                http_response_code(400);
+                echo json_encode(['message' => 'No data provided']);
+                return;
+            }
+
+            $this->taskService->assignUser($data);
+
+            $this->successResponse($data, 'Task assigned to users successfully');
+        } catch (Exception $e) {
+            $this->errResponse($e->getMessage());
+        }
+    }
 }   

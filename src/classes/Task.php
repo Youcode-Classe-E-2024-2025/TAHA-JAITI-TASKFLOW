@@ -31,6 +31,9 @@ abstract class Task {
         $this->createdBy = $id;
     }
     
+    public function setId($id) {
+        $this->id = $id;
+    }
     
     public function createTask () {
         $sql = "INSERT INTO $this->table (title, description, status,type, created_by)
@@ -71,18 +74,14 @@ abstract class Task {
         return false;
     }
 
-    public function assignUsers ($userIds) {
+    public function assignUser ($userId) {
         $sql = "INSERT user_assignments (user_id, task_id) VALUES (:user_id, :tasl_Id)";
         $stmt = $this->conn->prepare($sql);
 
-        foreach ($userIds as $userId) {
-            $stmt->bindParam(':user_id', $userId);
-            $stmt->bindParam(':task_id', $this->id);
-            
-            if (!$stmt->execute()) {
-                throw new Exception("Failed to assign user(s)");
-            }
-        }
+        $stmt->bindParam(':user_id', $userId);
+        $stmt->bindParam(':task_id', $this->id);
+
+        return $stmt->execute();
     }
 
     public function getAssignedUsers() {

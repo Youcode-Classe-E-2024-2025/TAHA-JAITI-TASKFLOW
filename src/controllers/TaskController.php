@@ -7,7 +7,7 @@ class TaskController extends Controller {
         $this->taskService = new TaskService($db, 'Tasks');
     }
 
-    public function createTask() {
+    public function createBug() {
         try {
             $data = json_decode(file_get_contents('php://input'));
 
@@ -17,7 +17,7 @@ class TaskController extends Controller {
                 return;
             }
 
-            $this->taskService->createTask($data);
+            $this->taskService->createBug($data);
 
             $this->successResponse($data, 'Task created successfully');
         } catch (Exception $e) {

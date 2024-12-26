@@ -23,6 +23,10 @@ function renderLogin() {
         clearRoot();
         root.appendChild(createLogin());
         const loginForm = document.getElementById('loginForm');
+        const link = document.getElementById('loginLink');
+        if (link) {
+            link.onclick = (e) => navigateTo(e, '/register');
+        }
         if (loginForm) {
             loginForm.onsubmit = (event) => __awaiter(this, void 0, void 0, function* () {
                 event.preventDefault();
@@ -36,6 +40,10 @@ function renderRegister() {
         clearRoot();
         root.appendChild(createRegister());
         const registerForm = document.getElementById('registerForm');
+        const link = document.getElementById('registerLink');
+        if (link) {
+            link.onclick = (e) => navigateTo(e, '/login');
+        }
         if (registerForm) {
             registerForm.onsubmit = (event) => __awaiter(this, void 0, void 0, function* () {
                 event.preventDefault();
@@ -44,4 +52,30 @@ function renderRegister() {
         }
     }
 }
-renderRegister();
+const routes = {
+    "/": renderLogin,
+    "/login": renderLogin,
+    "/register": renderRegister,
+};
+function router() {
+    const path = window.location.pathname;
+    const route = routes[path];
+    if (route) {
+        route();
+    }
+    else {
+        renderLogin();
+    }
+}
+function navigate(path) {
+    window.history.pushState({}, "", path);
+    router();
+}
+function navigateTo(event, path) {
+    event.preventDefault();
+    navigate(path);
+}
+window.addEventListener('popstate', router);
+document.addEventListener('DOMContentLoaded', () => {
+    router();
+});

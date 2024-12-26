@@ -2,7 +2,7 @@
 export const createRegister = () => {
     const registerElement = document.createElement('div');
     registerElement.id = 'registerContainer';
-    registerElement.className = 'class="h-full w-full flex items-center justify-center';
+    registerElement.className = 'h-full w-full flex items-center justify-center';
     registerElement.innerHTML = `
             <div class="bg-gray-800 p-8 rounded-md shadow-md w-96">
             <h2 class="text-2xl font-bold text-purple-500 mb-6">Register for TaskFlow</h2>
@@ -28,7 +28,7 @@ export const createRegister = () => {
                 </button>
             </form>
             <p class="mt-4 text-sm text-gray-400">
-                Already have an account? <a href="/login" class="text-purple-500 hover:text-purple-400">Login here</a>
+                Already have an account? <a href="/login" id="registerLink" class="w-full text-purple-500 hover:text-purple-400">Login here</a>
             </p>
         </div>
         `
@@ -59,7 +59,6 @@ export const handleRegister = async () => {
 
             if (response.ok){
                 console.log('Register successful', result);
-
             }
 
         } catch (err) {

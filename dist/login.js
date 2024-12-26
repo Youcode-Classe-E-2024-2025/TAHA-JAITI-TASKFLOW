@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 export const createLogin = () => {
     const loginElement = document.createElement('div');
     loginElement.id = 'loginContainer';
-    loginElement.className = 'class="h-full w-full flex items-center justify-center';
+    loginElement.className = 'h-full w-full flex items-center justify-center';
     loginElement.innerHTML = `
             <div class="bg-gray-800 p-8 rounded-sm shadow-md w-96">
                 <h2 class="text-2xl font-bold text-purple-500 mb-6">Login to TaskFlow</h2>
@@ -31,8 +31,8 @@ export const createLogin = () => {
                     </button>
                 </form>
                 <p class="mt-4 text-sm text-gray-400">
-                    Don't have an account? <button class="text-purple-500 hover:text-purple-400">Register
-                        here<button/>
+                    Don't have an account? <a href="/register" id="loginLink" class="text-purple-500 hover:text-purple-400">Register
+                        here<a/>
                 </p>
             </div>
         `;

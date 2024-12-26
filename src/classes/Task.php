@@ -31,6 +31,7 @@ abstract class Task {
         $this->createdBy = $id;
     }
     
+    
     public function createTask () {
         $sql = "INSERT INTO $this->table (title, description, status,type, created_by)
                 VALUES (:title, :description, :status, :type, :created_by)";

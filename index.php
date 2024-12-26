@@ -23,4 +23,8 @@ $router->addRoute('POST', '/createbug', function() use ($taskController) {
     $taskController->createBug();
 });
 
+$router->addRoute('POST', '/assignuser', function() use ($taskController) {
+    $taskController->assignUser();
+});
+
 $router->handleRequest($_SERVER['REQUEST_METHOD'], parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));

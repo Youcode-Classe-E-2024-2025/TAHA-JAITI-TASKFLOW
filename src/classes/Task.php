@@ -75,7 +75,7 @@ abstract class Task {
     }
 
     public function assignUser ($userId) {
-        $sql = "INSERT user_assignments (user_id, task_id) VALUES (:user_id, :tasl_Id)";
+        $sql = "INSERT INTO user_assignments (user_id, task_id) VALUES (:user_id, :task_id)";
         $stmt = $this->conn->prepare($sql);
 
         $stmt->bindParam(':user_id', $userId);

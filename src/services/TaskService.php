@@ -24,12 +24,12 @@ class TaskService extends Service{
     }
 
     public function assignUser($data){
-        if (empty($data->task_id) || empty($data->user)) {
+        if (empty($data->task_id) || empty($data->user_id)) {
             throw new Exception('All fields are required');
         }
 
         $this->taskModel->setId(str_secure($data->task_id));
-        $this->taskModel->assignUser($data->user);
+        $this->taskModel->assignUser($data->user_id);
     }
 
 }

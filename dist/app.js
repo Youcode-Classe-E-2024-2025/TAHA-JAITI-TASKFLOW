@@ -8,9 +8,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import { createLogin, handleLogin } from "./login.js";
+import { createRegister, handleRegister } from "./register.js";
 const userId = sessionStorage.getItem('user_id') || null;
 const role = sessionStorage.getItem('role') || null;
-console.log(sessionStorage);
 const root = document.getElementById('root');
 function clearRoot() {
     root.innerHTML = "";
@@ -31,4 +31,17 @@ function renderLogin() {
         }
     }
 }
-renderLogin();
+function renderRegister() {
+    if (!userId && !role) {
+        clearRoot();
+        root.appendChild(createRegister());
+        const registerForm = document.getElementById('registerForm');
+        if (registerForm) {
+            registerForm.onsubmit = (event) => __awaiter(this, void 0, void 0, function* () {
+                event.preventDefault();
+                yield handleRegister();
+            });
+        }
+    }
+}
+renderRegister();

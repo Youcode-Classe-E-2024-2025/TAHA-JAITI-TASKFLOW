@@ -1,10 +1,8 @@
 import { createLogin, handleLogin } from "./login.js";
+import { createRegister, handleRegister } from "./register.js";
 
 const userId = sessionStorage.getItem('user_id') || null;
 const role = sessionStorage.getItem('role') || null;
-
-console.log(sessionStorage);
-
 
 const root = document.getElementById('root') as HTMLDivElement;
 
@@ -31,6 +29,23 @@ function renderLogin() {
     }
 }
 
-renderLogin();
+function renderRegister(){
+    if (!userId && !role){
+        clearRoot();
+        root.appendChild(createRegister());
+
+        const registerForm = document.getElementById('registerForm') as HTMLFormElement;
+        if (registerForm){
+            registerForm.onsubmit = async (event) => {
+                event.preventDefault();
+                await handleRegister();
+            }
+        }
+
+    }
+}
+
+renderRegister();
+
 
 

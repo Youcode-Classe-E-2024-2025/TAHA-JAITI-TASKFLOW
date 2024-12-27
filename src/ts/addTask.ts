@@ -43,15 +43,29 @@ export const createAddForm = () => {
                     <option value="dsfsd">sfsdlsdf</option>
                 </select>
             </div>
-            <button class="w-full btn_primary">
+            <button id="submitAdd" class="w-full btn_primary">
                 Create Task
             </button>
         </form>`
     
+    const form = element.querySelector("#addForm") as HTMLFormElement;
+
     const closeBtn = element.querySelector('#closeAdd') as HTMLButtonElement;
     closeBtn.addEventListener('click', () => {
         element.remove();
     });
 
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const data = new FormData(form);
+
+        handleAdd(data);
+    });
+
     return element;
+};
+
+const handleAdd = async (data: FormData) => {
+    console.log(data);
+    
 };

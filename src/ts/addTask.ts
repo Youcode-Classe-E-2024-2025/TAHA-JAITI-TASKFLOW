@@ -67,5 +67,44 @@ export const createAddForm = () => {
 
 const handleAdd = async (data: FormData) => {
     console.log(data);
+
+//     0: title → "Hic obcaecati duis m"
+//     1: description → "Magnam perspiciatis"
+//     2: type → "bug"
+//     3: status → "to-do"
+//     4: deadline → "1971-07-12"
+//     5: assignUsers → "dsfsd"
+//     6: assignUsers → "dsfsd"
+
+    if (data){
+        const title = data.get('title') as string;
+        const description = data.get('description') as string;
+        const type = data.get('type') as string;
+        const status = data.get('status') as string;
+        const deadline = data.get('deadline') as  string;
+        const assignUsers = data.getAll('assignUsers') as string[];
+
+        try{
+            const result = await fetch('http://localhost/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({title, description, type, status, deadline, assignUsers})
+            });
+
+            const response = await result.json();
+
+            if (result.ok){
+                console.log('TASK ADDED');
+                
+            }
+
+        } catch (err){
+            console.error(err);
+            alert('an error happened regestering');
+        }
+
+    }
     
 };

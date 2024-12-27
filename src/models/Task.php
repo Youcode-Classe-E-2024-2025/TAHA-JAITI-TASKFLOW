@@ -10,6 +10,7 @@ class Task {
     protected $status;
     protected $type = 'basic';
     protected $createdBy;
+    protected $deadline;
 
     public function __construct($db){
         $this->conn = $db;
@@ -30,20 +31,25 @@ class Task {
     public function setCreatedBy($id) {
         $this->createdBy = $id;
     }
+
+    public function setDeadline($date){
+        $this->deadline = $date;
+    }
     
     public function setId($id) {
         $this->id = $id;
     }
     
     public function createTask () {
-        $sql = "INSERT INTO $this->table (title, description, status,type, created_by)
-                VALUES (:title, :description, :status, :type, :created_by)";
+        $sql = "INSERT INTO $this->table (title, description, status,type, deadline, created_by)
+                VALUES (:title, :description, :status, :type, :deadline, :created_by)";
 
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':title', $this->title);
         $stmt->bindParam(':description', $this->description);
         $stmt->bindParam(':status', $this->status);
         $stmt->bindParam(':type', $this->type);
+        $stmt->bindParam(':deadline', $this->deadline);
         $stmt->bindParam(':created_by', $this->createdBy);
 
         if ($stmt->execute()) {

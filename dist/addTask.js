@@ -27,7 +27,7 @@ export const createAddForm = () => {
             <div>
                 <label for="type" class="block text-sm font-medium text-gray-300">Type</label>
                 <select id="type" name="type" required class="input">
-                    <option value="basic">Basic</option>
+                    <option value="task">Basic</option>
                     <option value="feature">Feature</option>
                     <option value="bug">Bug</option>
                 </select>

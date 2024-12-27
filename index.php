@@ -34,6 +34,11 @@ $router->addRoute('POST', '/changestatus', function() use ($conn) {
     $taskController->changeStatus();
 });
 
+$router->addRoute('GET', '/getusers', function() use ($userController){
+    header('Content-Type: application/json');
+    $userController->getUsers();
+});
+
 $router->addRoute('GET', '/', function (){
     header('Location: /public/index.html');
     exit;

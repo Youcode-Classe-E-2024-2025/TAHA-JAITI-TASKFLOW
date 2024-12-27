@@ -8,7 +8,10 @@ const role = sessionStorage.getItem('role') || null;
 
 const root = document.getElementById('root') as HTMLDivElement;
 
+
 function clearRoot() {
+    console.log('CLEARED ROOT');
+    
     root.innerHTML = "";
     root.appendChild(createHeader());
 }
@@ -34,10 +37,32 @@ function renderErrPage(){
     root.innerHTML += errPage();
 }
 
+async function logOut(){
+    try {
+
+        const result = await fetch('http://localhost/api/logout', {
+            method: 'GET'});
+        
+        const response = await result.json();
+        if (result.ok){
+            if (response){
+                console.log(response);
+                sessionStorage.clear();
+                navigate('/');
+            }
+        }
+
+    } catch (err){ 
+        console.error(err);
+        alert('error happened while logging out');
+    }
+}
+
 const routes: { [key: string]: () => void } = {
     "/": renderLogin,
     "/login": renderLogin,
     "/register": renderRegister,
+    "/logout": logOut
 };
 
 function router() {
@@ -45,7 +70,7 @@ function router() {
     const route = routes[path];
     if (route) {
         clearRoot();
-        route();
+        route();    
     } else {
         renderErrPage();
     }

@@ -1,11 +1,11 @@
 import { createAddForm } from "./addTask.js";
-const userId = sessionStorage.getItem('user_id') || null;
-const role = sessionStorage.getItem('role') || null;
-const checkRole = role === "supervisor" ? 'block' : 'none';
-const checkUserLoggedIn = userId !== null ? 'block' : 'none';
-const checkUserLoggedOut = userId === null ? 'block' : 'none';
 const root = document.getElementById('root');
 export const createHeader = () => {
+    const userId = sessionStorage.getItem('user_id') || null;
+    const role = sessionStorage.getItem('role') || null;
+    const checkRole = role === "supervisor" ? 'block' : 'none';
+    const checkUserLoggedIn = userId !== null ? 'block' : 'none';
+    const checkUserLoggedOut = userId === null ? 'block' : 'none';
     const headerElement = document.createElement('div');
     headerElement.className = 'w-full h-fit p-4 bg-slate-950';
     headerElement.id = 'headerElement';

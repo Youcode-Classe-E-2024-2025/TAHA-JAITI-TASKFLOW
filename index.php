@@ -1,6 +1,14 @@
 <?php
 session_start();
 
+enum httpMethods{
+    case GET;
+    case POST;
+    case DELETE;
+    case PATCH;
+}
+
+
 require_once __DIR__ . '/src/loader.php';
 
 $db = new Database();
@@ -44,5 +52,7 @@ $router->addRoute('GET', '/', function (){
     header('Location: /public/index.html');
     exit;
 });
+
+$router->addRoute('GET', '/logout' , fn() => $userController->logOut());
 
 $router->handleRequest($_SERVER['REQUEST_METHOD'], isset($_GET['url']) ? '/' . $_GET['url'] : '/');

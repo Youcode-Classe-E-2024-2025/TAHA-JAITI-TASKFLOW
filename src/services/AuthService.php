@@ -31,4 +31,9 @@ class AuthService {
     public function verifyPass ($pass, $hashPass){
         return password_verify($pass, $hashPass);
     }
+
+    public function logOut () {
+        session_destroy();
+        return true;
+    }
 }

@@ -57,6 +57,8 @@ export const handleLogin = async () => {
 
                 sessionStorage.setItem('user_id', String(result.data.user_Id));
                 sessionStorage.setItem('role', result.data.role);
+
+                return true;
             }
 
         } catch (err) {

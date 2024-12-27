@@ -5,7 +5,7 @@ class TaskController extends Controller {
     private $type;
 
     public function __construct($db, $type = null){
-        $allowedTypes = ['bug', 'feature','tasl']; //task types
+        $allowedTypes = ['bug', 'feature','task']; //task types
         if ($type && !in_array($type, $allowedTypes)) {
             throw new Exception('Invalid task type provided');
         }

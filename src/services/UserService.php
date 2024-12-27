@@ -34,4 +34,8 @@ class UserService extends Service {
         $this->requireRole('supervisor');
         return $this->userModel->getUsers();
     }
+
+    public function logOut(){
+        return $this->authService->logOut();
+    }
 }

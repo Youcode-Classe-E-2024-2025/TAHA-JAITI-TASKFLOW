@@ -53,10 +53,23 @@ class UserController extends Controller
         }
     }
 
+    public function logOut(){
+        try {
+            $logout = $this->userService->logOut();
+
+            if (!$logout){
+                throw new Exception('Not logged in');
+            }
+
+            $this->successResponse($logout, 'Logged out successfuly');
+        } catch (Exception $e){
+            $this->errResponse($e->getMessage());
+        }
+    }
+
     public function getUsers(){
         $this->requireRole('supervisor');
         try {
-
             $users = $this->userService->getUsers();
 
             if ($users){

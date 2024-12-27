@@ -22,7 +22,8 @@ class TaskService extends Service{
     }
 
     public function createTask($data){
-        if (empty($data->title) || empty($data->description) ||  empty($data->status) || empty($data->deadline)) {
+        if (empty($data->title) || empty($data->description) 
+            ||  empty($data->status) || empty($data->deadline) || empty($data->assignUsers)) {
             throw new Exception('All fields are required');
         }
 
@@ -32,7 +33,13 @@ class TaskService extends Service{
         $this->taskModel->setCreatedBy($_SESSION['user_id']);
         $this->taskModel->setDeadline(str_secure($data->deadline));
 
-        $this->taskModel->createTask();
+        $taskId = $this->taskModel->createTask();
+
+        if (!empty($data->assignUsers) && is_array(($data->assignUsers))){
+            foreach($data->assignUsers as $userId){
+                $this->taskModel->assignUser( intval($userId),$taskId);
+            }
+        }
     }
 
     public function assignUser($data){
@@ -41,7 +48,7 @@ class TaskService extends Service{
         }
 
         $this->taskModel->setId(str_secure($data->task_id));
-        $this->taskModel->assignUser($data->user_id);
+        $this->taskModel->assignUser($data->user_id, $data->task_id);
     }
 
     public function changeStatus($data) {

@@ -54,7 +54,7 @@ class Task {
 
         if ($stmt->execute()) {
             $this->id = $this->conn->lastInsertId();
-            return true;
+            return $this->id;
         }
 
         return false;
@@ -81,12 +81,12 @@ class Task {
         return false;
     }
 
-    public function assignUser ($userId) {
+    public function assignUser ($userId,$taskId ) {
         $sql = "INSERT INTO user_assignments (user_id, task_id) VALUES (:user_id, :task_id)";
         $stmt = $this->conn->prepare($sql);
 
         $stmt->bindParam(':user_id', $userId);
-        $stmt->bindParam(':task_id', $this->id);
+        $stmt->bindParam(':task_id', $taskId);
 
         return $stmt->execute();
     }

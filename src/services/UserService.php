@@ -29,4 +29,8 @@ class UserService extends Service {
         $user = $this->authService->login($email, $pass);
         return $user;
     }
+
+    public function getUsers() {
+        return $this->userModel->getUsers();
+    }
 }

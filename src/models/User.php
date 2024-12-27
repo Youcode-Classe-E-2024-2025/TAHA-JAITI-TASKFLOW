@@ -61,4 +61,16 @@ class User {
         return $user;
     }
 
+    public function getUsers () {
+        $sql = "SELECT * FROM $this->table WHERE role = 'employee'";
+
+        $stmt = $this->conn->prepare($sql);
+        
+        if ($stmt->execute()){
+            return $stmt->fetchAll(PDO::FETCH_OBJ);
+        }
+
+        return null;
+    }
+
 }

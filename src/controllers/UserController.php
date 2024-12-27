@@ -52,4 +52,18 @@ class UserController extends Controller
             $this->errResponse($e->getMessage());
         }
     }
+
+    public function getUsers(){
+        try {
+            $users = $this->userService->getUsers();
+
+            if ($users){
+                $this->basicResponse($users);
+            } else {
+                $this->errResponse('No users found', 200);
+            }
+        } catch (Exception $e){
+            $this->errResponse('Error getting the data');
+        }
+    }
 }

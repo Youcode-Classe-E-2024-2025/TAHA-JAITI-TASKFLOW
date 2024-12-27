@@ -47,9 +47,6 @@ export const createAddForm = () => {
             <div>
                 <label for="assignUsers" class="block text-sm font-medium text-gray-300">Assign Employees</label>
                 <select id="assignUsers" name="assignUsers" multiple class="input">
-                    <option value="dsfsd">HEHE</option>
-                    <option value="dsfsd">sdffs</option>
-                    <option value="dsfsd">sfsdlsdf</option>
                 </select>
             </div>
             <button id="submitAdd" class="w-full btn_primary">
@@ -101,5 +98,32 @@ const handleAdd = (data) => __awaiter(void 0, void 0, void 0, function* () {
             console.error(err);
             alert('an error happened regestering');
         }
+    }
+});
+const getUsers = () => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const response = yield fetch('http://localhost/api/users');
+        if (response.ok) {
+            const users = yield response.json();
+            return users;
+        }
+    }
+    catch (err) {
+        console.error(err);
+        alert('error getting users');
+    }
+    return null;
+});
+const fillSelect = (select) => __awaiter(void 0, void 0, void 0, function* () {
+    const users = yield getUsers();
+    if (select && users) {
+        select.innerHTML = '';
+        const options = users.map((user) => {
+            const option = document.createElement('option');
+            option.value = String(user.id);
+            option.textContent = user.username;
+            return option;
+        });
+        select.append(...options);
     }
 });

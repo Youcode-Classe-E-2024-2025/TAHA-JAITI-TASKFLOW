@@ -1,3 +1,12 @@
+interface user{
+    id: number,
+    username: string,
+    email: string,
+    role: 'employee' | 'supervisor',
+    created_at: Date,
+    updated_at: Date
+}
+
 export const createAddForm = () => {
     const element = document.createElement('section');
     element.id = "addContainer";
@@ -38,9 +47,6 @@ export const createAddForm = () => {
             <div>
                 <label for="assignUsers" class="block text-sm font-medium text-gray-300">Assign Employees</label>
                 <select id="assignUsers" name="assignUsers" multiple class="input">
-                    <option value="dsfsd">HEHE</option>
-                    <option value="dsfsd">sdffs</option>
-                    <option value="dsfsd">sfsdlsdf</option>
                 </select>
             </div>
             <button id="submitAdd" class="w-full btn_primary">
@@ -107,4 +113,36 @@ const handleAdd = async (data: FormData) => {
 
     }
     
+};
+
+const getUsers = async (): Promise<user[] | null> => {
+    try {
+        const response = await fetch('http://localhost/api/users');
+        if (response.ok){
+            const users: user[] = await response.json();
+            return users;
+        }
+
+    } catch (err){
+        console.error(err);
+        alert('error getting users');
+    }
+    return null;
+};
+
+const fillSelect = async (select: HTMLSelectElement) => {
+    const users: user[] | null = await getUsers();
+
+    if (select && users){
+        select.innerHTML = '';
+
+        const options = users.map((user: {id: number, username: string}) => {
+            const option = document.createElement('option');
+            option.value = String(user.id);
+            option.textContent = user.username;
+            return option
+        });
+
+        select.append(...options);
+    }
 };

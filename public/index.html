@@ -84,7 +84,7 @@
         <form class="bg-gray-800 rounded-md shadow-md p-6 space-y-4">
             <div class="flex justify-between">
                 <p class="text-2xl">Create a new task</p>
-                <button>X</button>
+                <button id="closeTask">X</button>
             </div>
             <div>
                 <label for="title" class="block text-sm font-medium text-gray-300">Title</label>
@@ -100,6 +100,14 @@
                     <option value="basic">Basic</option>
                     <option value="feature">Feature</option>
                     <option value="bug">Bug</option>
+                </select>
+            </div>
+            <div>
+                <label for="status" class="block text-sm font-medium text-gray-300">Status</label>
+                <select id="status" name="status" required class="input">
+                    <option value="to-do">To-Do</option>
+                    <option value="in-progress">In-Progress</option>
+                    <option value="completed">Completed</option>
                 </select>
             </div>
             <div>

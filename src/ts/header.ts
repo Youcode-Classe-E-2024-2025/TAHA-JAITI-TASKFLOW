@@ -5,9 +5,6 @@ const checkRole = role === "supervisor" ? 'block' : 'none';
 const checkUserLoggedIn = userId !== null ? 'block' : 'none'; 
 const checkUserLoggedOut = userId === null ? 'block' : 'none';
 
-console.log(sessionStorage);
-console.log(checkUserLoggedIn, checkUserLoggedOut);
-
 export const createHeader = () => {
     const headerElement = document.createElement('div');
     headerElement.className = 'w-full h-fit p-4 bg-slate-950';

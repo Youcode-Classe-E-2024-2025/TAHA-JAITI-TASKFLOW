@@ -22,6 +22,8 @@ class TaskService extends Service{
     }
 
     public function createTask($data){
+        $this->requireRole('supervisor');
+
         if (empty($data->title) || empty($data->description) 
             ||  empty($data->status) || empty($data->deadline) || empty($data->assignUsers)) {
             throw new Exception('All fields are required');
@@ -43,6 +45,8 @@ class TaskService extends Service{
     }
 
     public function assignUser($data){
+        $this->requireRole('supervisor');
+        
         if (empty($data->task_id) || empty($data->user_id)) {
             throw new Exception('All fields are required');
         }

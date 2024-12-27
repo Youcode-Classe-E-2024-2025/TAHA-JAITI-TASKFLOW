@@ -9,45 +9,9 @@ class Service {
         $this->table = $table;
     }
 
-    public function getAll(){
-        try {
-            $sql = "SELECT * FROM $this->table";
-            $query = $this->db->query($sql);
-
-            $this->db->execute();
-
-            return $this->db->fetchSet();
-        } catch (PDOException $e) {
-            return ['Error: ' . $e->getMessage()];
-        }
-    }
-
-    public function getById($id) {
-        try {
-            $sql = "SELECT * FROM $this->table WHERE id = :id";
-            $query = $this->db->query($sql);
-
-            $this->db->bind(':id', $id);
-            $this->db->execute();
-
-            return $this->db->fetch();
-
-        } catch (PDOException $e) {
-            return ['Error: ' . $e->getMessage()];
-        }
-    }
-
-    public function delete($id) {
-        try {
-            $sql = "DELETE FROM $this->table WHERE id = :id";
-            $query = $this->db->query($sql);
-
-            $this->db->bind(':id', $id);
-            $this->db->execute();
-
-            return ['message' => 'Deleted successfully'];
-        } catch (PDOException $e) {
-            return ['Error: ' . $e->getMessage()];
+    public function requireRole(string $role){
+        if (empty($_SESSION['user_id']) || $_SESSION['role'] !== $role) {
+            throw new Exception('Unauthorized: Access denied.');
         }
     }
 

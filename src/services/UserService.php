@@ -31,6 +31,7 @@ class UserService extends Service {
     }
 
     public function getUsers() {
+        $this->requireRole('supervisor');
         return $this->userModel->getUsers();
     }
 }

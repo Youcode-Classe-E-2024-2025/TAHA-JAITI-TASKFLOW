@@ -17,7 +17,7 @@ class Controller {
         http_response_code($code);
         header('Content-Type: application/json');
         echo json_encode([
-            'status' => 'hehe',
+            'status' => 'controller response',
             'message' => $msg
         ]);
         exit;
@@ -33,5 +33,11 @@ class Controller {
     protected function getRequestData () {
         $data = json_decode(file_get_contents('php://input'));
         return $data;
-    } 
+    }
+    
+    public function requireRole(string $role){
+        if (empty($_SESSION['user_id']) || $_SESSION['role'] !== $role) {
+            throw new Exception('Unauthorized: Access denied.');
+        }
+    }
 }

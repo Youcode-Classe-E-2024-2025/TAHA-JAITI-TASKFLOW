@@ -43,7 +43,7 @@ class UserController extends Controller
             $pass = $data->password;
 
             $this->userService->login($email, $pass);
-
+            
             $data->role = $_SESSION['role'];
             $data->user_Id = $_SESSION['user_id'];
 
@@ -54,7 +54,9 @@ class UserController extends Controller
     }
 
     public function getUsers(){
+        $this->requireRole('supervisor');
         try {
+
             $users = $this->userService->getUsers();
 
             if ($users){

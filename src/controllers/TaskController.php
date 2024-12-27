@@ -16,6 +16,7 @@ class TaskController extends Controller {
 
     public function createTask() {
         try {
+            $this->requireRole('supervisor');
             $data = json_decode(file_get_contents('php://input'));
 
             if (empty($data)) {
@@ -34,6 +35,7 @@ class TaskController extends Controller {
 
     public function assignUser() {
         try {
+            $this->requireRole('supervisor');
             $data = json_decode(file_get_contents('php://input'));
 
             if (empty($data)) {

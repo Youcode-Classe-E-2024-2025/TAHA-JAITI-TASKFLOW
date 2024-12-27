@@ -1,58 +1,37 @@
 import { createLogin, handleLogin } from "./login.js";
 import { createRegister, handleRegister } from "./register.js";
 import { createHeader } from "./header.js";
+import { errPage } from "./404.js";
 
 const userId = sessionStorage.getItem('user_id') || null;
 const role = sessionStorage.getItem('role') || null;
 
 const root = document.getElementById('root') as HTMLDivElement;
 
-function clearRoot (){
+function clearRoot() {
     root.innerHTML = "";
     root.appendChild(createHeader());
 }
 
-if (!root){
+if (!root) {
     throw new Error('Root element not found');
 }
 
 function renderLogin() {
-    if (!userId && !role){
+    if (!userId && !role) {
         root.appendChild(createLogin());
-        const loginForm = document.getElementById('loginForm') as HTMLFormElement;
-        const link = document.getElementById('loginLink') as HTMLAnchorElement;
-        if (link){
-            link.onclick = (e) => navigateTo(e, '/register');
-        }
-
-        if (loginForm){
-            loginForm.onsubmit = async (event) => {
-                event.preventDefault();
-                await handleLogin();
-                navigateTo(event, '/');
-            }
-        }
     }
 }
 
-function renderRegister(){
-    if (!userId && !role){
+function renderRegister() {
+    if (!userId && !role) {
         root.appendChild(createRegister());
-        const registerForm = document.getElementById('registerForm') as HTMLFormElement;
-        const link = document.getElementById('registerLink') as HTMLAnchorElement;
-        
-        if (link){
-            link.onclick = (e) => navigateTo(e, '/login');
-        }
-
-        if (registerForm){
-            registerForm.onsubmit = async (event) => {
-                event.preventDefault();
-                await handleRegister();
-            }
-        }
-
     }
+}
+
+function renderErrPage(){
+    clearRoot();
+    root.innerHTML += errPage();
 }
 
 const routes: { [key: string]: () => void } = {
@@ -61,25 +40,46 @@ const routes: { [key: string]: () => void } = {
     "/register": renderRegister,
 };
 
-function router () {
+function router() {
     const path = window.location.pathname;
     const route = routes[path];
-    if (route){
+    if (route) {
         clearRoot();
         route();
     } else {
-        renderLogin();
+        renderErrPage();
     }
 }
 
-function navigate(path: string){
+function navigate(path: string) {
     window.history.pushState({}, "", path);
     router();
 }
 
-function navigateTo(event: Event, path: string){
-    event.preventDefault();
-    navigate(path);
+function handleNavigation(event: Event) {
+    const target = event.target as HTMLElement;
+
+    if (target.tagName === 'A' && target.hasAttribute('href')) {
+        const path = target.getAttribute('href');
+        if (path && path.startsWith('/')) {
+            event.preventDefault();
+            navigate(path);
+        }
+    }
+
+    if (target.tagName === 'FORM') {
+        const form = target as HTMLFormElement;
+
+        if (form.id === 'loginForm') {
+            event.preventDefault();
+            handleLogin().then(() => navigate('/'));
+        }
+
+        if (form.id === 'registerForm') {
+            event.preventDefault();
+            handleRegister().then(() => navigate('/login'));
+        }
+    }
 }
 
 window.addEventListener('popstate', router);
@@ -87,3 +87,6 @@ window.addEventListener('popstate', router);
 document.addEventListener('DOMContentLoaded', () => {
     router();
 });
+
+document.addEventListener('click', handleNavigation);
+document.addEventListener('submit', handleNavigation);

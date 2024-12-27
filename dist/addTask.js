@@ -54,6 +54,8 @@ export const createAddForm = () => {
             </button>
         </form>`;
     const form = element.querySelector("#addForm");
+    const selectElement = element.querySelector('#assignUsers');
+    fillSelect(selectElement);
     const closeBtn = element.querySelector('#closeAdd');
     closeBtn.addEventListener('click', () => {
         element.remove();
@@ -81,8 +83,9 @@ const handleAdd = (data) => __awaiter(void 0, void 0, void 0, function* () {
         const status = data.get('status');
         const deadline = data.get('deadline');
         const assignUsers = data.getAll('assignUsers');
+        const detectType = type === 'basic' ? 'basic' : type === 'bug' ? 'bug' : 'feature';
         try {
-            const result = yield fetch('http://localhost/api/login', {
+            const result = yield fetch(`http://localhost/api/create?type=${detectType}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -92,6 +95,7 @@ const handleAdd = (data) => __awaiter(void 0, void 0, void 0, function* () {
             const response = yield result.json();
             if (result.ok) {
                 console.log('TASK ADDED');
+                console.log(response);
             }
         }
         catch (err) {

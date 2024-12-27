@@ -55,6 +55,9 @@ export const createAddForm = () => {
         </form>`
     
     const form = element.querySelector("#addForm") as HTMLFormElement;
+    const selectElement = element.querySelector('#assignUsers') as HTMLSelectElement;
+
+    fillSelect(selectElement);
 
     const closeBtn = element.querySelector('#closeAdd') as HTMLButtonElement;
     closeBtn.addEventListener('click', () => {
@@ -90,8 +93,10 @@ const handleAdd = async (data: FormData) => {
         const deadline = data.get('deadline') as  string;
         const assignUsers = data.getAll('assignUsers') as string[];
 
+        const detectType = type === 'basic' ? 'basic' : type === 'bug' ? 'bug' : 'feature';
+
         try{
-            const result = await fetch('http://localhost/api/login', {
+            const result = await fetch(`http://localhost/api/create?type=${detectType}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -103,6 +108,7 @@ const handleAdd = async (data: FormData) => {
 
             if (result.ok){
                 console.log('TASK ADDED');
+                console.log(response);
                 
             }
 

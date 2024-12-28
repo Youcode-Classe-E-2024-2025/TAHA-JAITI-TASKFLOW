@@ -1,3 +1,5 @@
+import { displayTask } from "./displayTask.js"
+
 interface task {
     id: number,
     title: string,
@@ -22,11 +24,9 @@ export const createTask = (task: task) => {
     const typeColor = task.type === 'basic' ? 'gray' : task.type === 'bug' ? 'red' : 'green';
 
     const element = document.createElement('div');
-    element.className = `bg-gray-700 w-full h-fit p-2 rounded-sm drop-shadow-lg`;
+    element.className = `bg-gray-700 w-full h-fit p-2 rounded-sm drop-shadow-lg cursor-pointer`;
     element.id = `task${task.id}`;
-    
 
-    element.setAttribute('data-task-id', String(task.id));
     element.innerHTML = `<div class="flex justify-between items-center">
                         <h3>${task.title}</h3>
                         <div class="flex items-center justify-center gap-4">
@@ -41,6 +41,10 @@ export const createTask = (task: task) => {
                         <p class="bg-${typeColor}-800 px-2 rounded-sm">${task.type.toUpperCase()}</p>
                     </div>`;
     
+    element.addEventListener('click', (e: Event) => {
+        e.stopPropagation();
+        displayTask(task);
+    })
 
     return element;
 };
@@ -61,17 +65,3 @@ export const getTasks = async (): Promise<task[] | null> => {
 };
 
 
-// <div class="bg-gray-700 w-full h-fit p-2 rounded-sm drop-shadow-lg">
-//                     <div class="flex justify-between items-center">
-//                         <h3>TITLE</h3>
-//                         <div class="flex gap-2">
-//                             <p>DEL</p>
-//                             <p>EDIT</p>
-//                         </div>
-//                     </div>
-//                     <p>DESCIPRION</p>
-//                     <div class="flex justify-between items-center">
-//                         <p>CREATED BY</p>
-//                         <p class="bg-green-800 px-2 rounded-sm">BUG</p>
-//                     </div>
-//                 </div>

@@ -7,6 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+import { displayTask } from "./displayTask.js";
 export const createTask = (task) => {
     const role = sessionStorage.getItem('role') || null;
     const checkRole = role === "supervisor" ? 'block' : 'none';
@@ -15,9 +16,8 @@ export const createTask = (task) => {
         : task.description;
     const typeColor = task.type === 'basic' ? 'gray' : task.type === 'bug' ? 'red' : 'green';
     const element = document.createElement('div');
-    element.className = `bg-gray-700 w-full h-fit p-2 rounded-sm drop-shadow-lg`;
+    element.className = `bg-gray-700 w-full h-fit p-2 rounded-sm drop-shadow-lg cursor-pointer`;
     element.id = `task${task.id}`;
-    element.setAttribute('data-task-id', String(task.id));
     element.innerHTML = `<div class="flex justify-between items-center">
                         <h3>${task.title}</h3>
                         <div class="flex items-center justify-center gap-4">
@@ -31,6 +31,10 @@ export const createTask = (task) => {
                         <p>By: ${task.created_by_name}</p>
                         <p class="bg-${typeColor}-800 px-2 rounded-sm">${task.type.toUpperCase()}</p>
                     </div>`;
+    element.addEventListener('click', (e) => {
+        e.stopPropagation();
+        displayTask(task);
+    });
     return element;
 };
 export const getTasks = () => __awaiter(void 0, void 0, void 0, function* () {
@@ -47,17 +51,3 @@ export const getTasks = () => __awaiter(void 0, void 0, void 0, function* () {
     }
     return null;
 });
-// <div class="bg-gray-700 w-full h-fit p-2 rounded-sm drop-shadow-lg">
-//                     <div class="flex justify-between items-center">
-//                         <h3>TITLE</h3>
-//                         <div class="flex gap-2">
-//                             <p>DEL</p>
-//                             <p>EDIT</p>
-//                         </div>
-//                     </div>
-//                     <p>DESCIPRION</p>
-//                     <div class="flex justify-between items-center">
-//                         <p>CREATED BY</p>
-//                         <p class="bg-green-800 px-2 rounded-sm">BUG</p>
-//                     </div>
-//                 </div>

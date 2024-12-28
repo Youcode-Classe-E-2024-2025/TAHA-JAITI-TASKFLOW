@@ -50,7 +50,7 @@ export const deleteTask = (task) => __awaiter(void 0, void 0, void 0, function* 
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ id: task.id })
+            body: JSON.stringify(Object.assign({}, task))
         });
         const response = yield result.json();
         if (result.ok) {

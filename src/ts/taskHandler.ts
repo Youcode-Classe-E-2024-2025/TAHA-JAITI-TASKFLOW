@@ -59,7 +59,6 @@ export const createTask = (task: task) => {
     return element;
 };
 
-
 export const getTasks = async (): Promise<task[] | null> => {
     try {
         const response = await fetch ('http://localhost/api/tasks', {method: 'GET'})

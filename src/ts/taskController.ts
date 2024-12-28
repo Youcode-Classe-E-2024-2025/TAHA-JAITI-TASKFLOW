@@ -62,7 +62,7 @@ export const deleteTask = async (task: task) => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({id: task.id})
+            body: JSON.stringify({...task})
         });
 
         const response = await result.json();

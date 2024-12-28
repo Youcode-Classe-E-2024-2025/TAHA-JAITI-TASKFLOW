@@ -8,7 +8,7 @@ export const createMain = () => {
                             <!-- HEADER -->
                             <div class="bg-slate-950 h-fit p-4 flex justify-between items-center">
                                 <p>TO-DO</p>
-                                <p class="bg-purple-950 px-2 text-center rounded-sm">0</p>
+                                <p id="todoCounter" class="bg-purple-950 px-2 text-center rounded-sm">0</p>
                             </div>
                             <!-- container -->
                             <div id="todoContainer" class="container h-[50rem] overflow-auto flex flex-col gap-2 p-2">
@@ -22,7 +22,7 @@ export const createMain = () => {
                             <!-- HEADER -->
                             <div class="bg-slate-950 h-fit p-4 flex justify-between items-center">
                                 <p>IN-PROGRESS</p>
-                                <p class="bg-purple-950 px-2 text-center rounded-sm">0</p>
+                                <p id="doingCounter" class="bg-purple-950 px-2 text-center rounded-sm">0</p>
                             </div>
                             <!-- container -->
                             <div id="doingContainer" class="container h-[50rem] overflow-auto flex flex-col gap-2 p-2">
@@ -37,7 +37,7 @@ export const createMain = () => {
                             <!-- HEADER -->
                             <div class="bg-slate-950 h-fit p-4 flex justify-between items-center">
                                 <p>COMPLETED</p>
-                                <p class="bg-purple-950 px-2 text-center rounded-sm">0</p>
+                                <p id="doneCounter" class="bg-purple-950 px-2 text-center rounded-sm">0</p>
                             </div>
                             <!-- container -->
                             <div id="doneContainer" class="container h-[50rem] overflow-auto flex flex-col gap-2 p-2 ">
@@ -60,24 +60,39 @@ export const fillContainer = async () => {
         done: document.getElementById('doneContainer') as HTMLDivElement,
     }
 
+    const counters = {
+        todo: document.getElementById('todoCounter') as HTMLDivElement,
+        doing: document.getElementById('doingCounter') as HTMLDivElement,
+        done: document.getElementById('doneCounter') as HTMLDivElement,
+    }
+
     container.todo.innerHTML = "";
     container.doing.innerHTML = "";
     container.done.innerHTML = "";
 
-    if (tasks && container) {
-        tasks.forEach(task => {
+    let todo = 0;
+    let doing = 0;
+    let done = 0;
 
+    if (tasks && container && counters) {
+        tasks.forEach(task => {
             const taskElement = createTask(task);
 
             if (task.status === 'to-do') {
+                todo++;
                 container.todo.appendChild(taskElement);
             } else if (task.status === 'in-progress') {
+                doing++;
                 container.doing.appendChild(taskElement);
             } else if (task.status === 'completed') {
+                done++;
                 container.done.appendChild(taskElement);
             }
-
         });
+
+        counters.todo.textContent = String(todo);
+        counters.doing.textContent = String(doing);
+        counters.done.textContent = String(done);
     }
 
 };

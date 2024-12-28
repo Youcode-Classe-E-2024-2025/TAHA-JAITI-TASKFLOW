@@ -10,8 +10,6 @@ const root = document.getElementById('root') as HTMLDivElement;
 
 
 function clearRoot() {
-    console.log('CLEARED ROOT');
-    
     root.innerHTML = "";
     root.appendChild(createHeader());
 }
@@ -32,34 +30,33 @@ function renderRegister() {
     }
 }
 
-function renderErrPage(){
+function renderErrPage() {
     clearRoot();
     root.innerHTML += errPage();
 }
 
-async function logOut(){
+async function logOut() {
     try {
 
         const result = await fetch('http://localhost/api/logout', {
-            method: 'GET'});
-        
+            method: 'GET'
+        });
+
         const response = await result.json();
-        if (result.ok){
-            if (response){
-                console.log(response);
-                sessionStorage.clear();
-                navigate('/');
-            }
+        if (result.ok) {
+            console.log('logged out');
+            sessionStorage.clear();
+            navigate('/login');
         }
 
-    } catch (err){ 
+    } catch (err) {
         console.error(err);
         alert('error happened while logging out');
     }
 }
 
 const routes: { [key: string]: () => void } = {
-    "/": renderLogin,
+    "/": clearRoot,
     "/login": renderLogin,
     "/register": renderRegister,
     "/logout": logOut
@@ -70,7 +67,7 @@ function router() {
     const route = routes[path];
     if (route) {
         clearRoot();
-        route();    
+        route();
     } else {
         renderErrPage();
     }
@@ -84,6 +81,7 @@ function navigate(path: string) {
 function handleNavigation(event: Event) {
     const target = event.target as HTMLElement;
 
+    // Handle anchor tags
     if (target.tagName === 'A' && target.hasAttribute('href')) {
         const path = target.getAttribute('href');
         if (path && path.startsWith('/')) {
@@ -92,17 +90,21 @@ function handleNavigation(event: Event) {
         }
     }
 
+    // Handle forms
     if (target.tagName === 'FORM') {
         const form = target as HTMLFormElement;
 
+        event.preventDefault();
         if (form.id === 'loginForm') {
-            event.preventDefault();
-            handleLogin().then(() => navigate('/'));
+            handleLogin()
+                .then(() => navigate('/'))
+                .catch(err => console.error('Login failed:', err));
         }
 
         if (form.id === 'registerForm') {
-            event.preventDefault();
-            handleRegister().then(() => navigate('/login'));
+            handleRegister()
+                .then(() => navigate('/login'))
+                .catch(err => console.error('Register failed:', err));
         }
     }
 }

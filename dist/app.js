@@ -15,7 +15,6 @@ const userId = sessionStorage.getItem('user_id') || null;
 const role = sessionStorage.getItem('role') || null;
 const root = document.getElementById('root');
 function clearRoot() {
-    console.log('CLEARED ROOT');
     root.innerHTML = "";
     root.appendChild(createHeader());
 }

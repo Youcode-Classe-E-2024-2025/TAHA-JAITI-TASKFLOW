@@ -1,7 +1,5 @@
 <?php
 
-session_start();
-
 class TaskService extends Service{
     private $taskModel;
     

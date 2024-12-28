@@ -36,14 +36,15 @@ class Controller {
     }
     
     public function requireRole(string $role){
-        if (empty($_SESSION['user_id']) && $_SESSION['role'] !== $role) {
+        if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== $role) {
+            http_response_code(400);
             throw new Exception('Unauthorized: Access denied.');
-
         }
     }
 
     public function requireLogin(){
-        if (empty($_SESSION['user_id'])) {
+        if (!isset($_SESSION['user_id'])) {
+            http_response_code(400);
             throw new Exception('Unauthorized: User is not logged in.');
         }
     }

@@ -11,7 +11,7 @@ export const createMain = () => {
                                 <p class="bg-purple-950 px-2 text-center rounded-sm">0</p>
                             </div>
                             <!-- container -->
-                            <div id="todoContainer" class="container flex flex-col gap-2 p-2">
+                            <div id="todoContainer" class="container h-[50rem] overflow-auto flex flex-col gap-2 p-2">
                                
                             </div>
 
@@ -25,7 +25,7 @@ export const createMain = () => {
                                 <p class="bg-purple-950 px-2 text-center rounded-sm">0</p>
                             </div>
                             <!-- container -->
-                            <div id="doingContainer" class="container flex flex-col gap-2 p-2">
+                            <div id="doingContainer" class="container h-[50rem] overflow-auto flex flex-col gap-2 p-2">
 
 
                             </div>
@@ -40,7 +40,7 @@ export const createMain = () => {
                                 <p class="bg-purple-950 px-2 text-center rounded-sm">0</p>
                             </div>
                             <!-- container -->
-                            <div id="doneContainer" class="container flex flex-col gap-2 p-2 ">
+                            <div id="doneContainer" class="container h-[50rem] overflow-auto flex flex-col gap-2 p-2 ">
 
                             </div>
 

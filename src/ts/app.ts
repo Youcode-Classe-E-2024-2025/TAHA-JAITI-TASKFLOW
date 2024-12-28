@@ -3,30 +3,39 @@ import { createRegister, handleRegister } from "./register.js";
 import { createHeader } from "./header.js";
 import { errPage } from "./404.js";
 
-const userId = sessionStorage.getItem('user_id') || null;
-const role = sessionStorage.getItem('role') || null;
+const root = document.getElementById("root") as HTMLDivElement;
 
-const root = document.getElementById('root') as HTMLDivElement;
+if (!root) {
+    throw new Error("Root element not found");
+}
 
+function getSessionData() {
+    return {
+        userId: sessionStorage.getItem("user_id") || null,
+        role: sessionStorage.getItem("role") || null,
+    };
+}
 
 function clearRoot() {
     root.innerHTML = "";
     root.appendChild(createHeader());
 }
 
-if (!root) {
-    throw new Error('Root element not found');
-}
-
 function renderLogin() {
-    if (!userId && !role) {
+    const { userId } = getSessionData();
+    if (!userId) {
         root.appendChild(createLogin());
+    } else {
+        navigate("/");
     }
 }
 
 function renderRegister() {
-    if (!userId && !role) {
+    const { userId } = getSessionData();
+    if (!userId) {
         root.appendChild(createRegister());
+    } else {
+        navigate("/");
     }
 }
 
@@ -37,37 +46,44 @@ function renderErrPage() {
 
 async function logOut() {
     try {
-
-        const result = await fetch('http://localhost/api/logout', {
-            method: 'GET'
-        });
-
-        const response = await result.json();
-        if (result.ok) {
-            console.log('logged out');
-            sessionStorage.clear();
-            navigate('/login');
+        const response = await fetch("http://localhost/api/logout", { method: "GET" });
+        if (!response.ok) {
+            throw new Error("Logout failed");
         }
 
-    } catch (err) {
-        console.error(err);
-        alert('error happened while logging out');
+        const result = await response.json();
+        
+        alert(result.message);
+        sessionStorage.clear();
+        navigate("/login");
+    } catch (error) {
+        console.error("Error logging out:", error);
+        alert("An error occurred during logout.");
     }
 }
 
-const routes: { [key: string]: () => void } = {
-    "/": clearRoot,
-    "/login": renderLogin,
-    "/register": renderRegister,
-    "/logout": logOut
+const routes: { [key: string]: { render: () => void; requiresAuth: boolean } } = {
+    "/": { render: clearRoot, requiresAuth: false },
+    "/login": { render: renderLogin, requiresAuth: false },
+    "/register": { render: renderRegister, requiresAuth: false },
+    "/logout": { render: logOut, requiresAuth: true },
 };
 
 function router() {
     const path = window.location.pathname;
     const route = routes[path];
+    const { userId } = getSessionData();
+
     if (route) {
         clearRoot();
-        route();
+
+        if (route.requiresAuth && !userId) {
+            alert("You must be logged in to access this page.");
+            navigate("/login");
+            return;
+        }
+
+        route.render();
     } else {
         renderErrPage();
     }
@@ -81,39 +97,34 @@ function navigate(path: string) {
 function handleNavigation(event: Event) {
     const target = event.target as HTMLElement;
 
-    // Handle anchor tags
-    if (target.tagName === 'A' && target.hasAttribute('href')) {
-        const path = target.getAttribute('href');
-        if (path && path.startsWith('/')) {
+    if (target.tagName === "A" && target.hasAttribute("href")) {
+        const path = target.getAttribute("href");
+        if (path && path.startsWith("/")) {
             event.preventDefault();
             navigate(path);
         }
     }
 
-    // Handle forms
-    if (target.tagName === 'FORM') {
+    if (target.tagName === "FORM") {
         const form = target as HTMLFormElement;
-
         event.preventDefault();
-        if (form.id === 'loginForm') {
+
+        if (form.id === "loginForm") {
             handleLogin()
-                .then(() => navigate('/'))
-                .catch(err => console.error('Login failed:', err));
+                .then(() => navigate("/"))
+                .catch((error) => console.error("Login failed:", error));
         }
 
-        if (form.id === 'registerForm') {
+        if (form.id === "registerForm") {
             handleRegister()
-                .then(() => navigate('/login'))
-                .catch(err => console.error('Register failed:', err));
+                .then(() => navigate("/login"))
+                .catch((error) => console.error("Register failed:", error));
         }
     }
 }
 
-window.addEventListener('popstate', router);
+window.addEventListener("popstate", router);
 
-document.addEventListener('DOMContentLoaded', () => {
-    router();
-});
-
-document.addEventListener('click', handleNavigation);
-document.addEventListener('submit', handleNavigation);
+document.addEventListener("DOMContentLoaded", router);
+document.addEventListener("click", handleNavigation);
+document.addEventListener("submit", handleNavigation);

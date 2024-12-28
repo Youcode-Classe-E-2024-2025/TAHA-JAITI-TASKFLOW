@@ -58,12 +58,14 @@ export const handleLogin = () => __awaiter(void 0, void 0, void 0, function* () 
                 console.log('Login successful', result);
                 sessionStorage.setItem('user_id', String(result.data.user_Id));
                 sessionStorage.setItem('role', result.data.role);
+                console.log('logged in');
                 return true;
             }
         }
         catch (err) {
             console.error('Error', err);
             alert('Error logging in');
+            return false;
         }
     }
 });

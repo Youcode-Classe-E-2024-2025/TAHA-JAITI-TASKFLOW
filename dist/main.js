@@ -56,13 +56,16 @@ export const createMain = () => {
     fillContainer();
     return element;
 };
-const fillContainer = () => __awaiter(void 0, void 0, void 0, function* () {
+export const fillContainer = () => __awaiter(void 0, void 0, void 0, function* () {
     const tasks = yield getTasks();
     const container = {
         todo: document.getElementById('todoContainer'),
         doing: document.getElementById('doingContainer'),
         done: document.getElementById('doneContainer'),
     };
+    container.todo.innerHTML = "";
+    container.doing.innerHTML = "";
+    container.done.innerHTML = "";
     if (tasks && container) {
         tasks.forEach(task => {
             const taskElement = createTask(task);

@@ -1,3 +1,6 @@
+import { createTask, getTasks } from "./taskHandler.js";
+import { fillContainer } from "./main.js";
+
 interface user{
     id: number,
     username: string,
@@ -108,6 +111,9 @@ const handleAdd = async (data: FormData, container: HTMLElement) => {
 
             if (result.ok){
                 container.remove();
+
+                fillContainer();
+                
             }
 
         } catch (err){

@@ -51,7 +51,7 @@ export const createMain = () => {
     return element;
 };
 
-const fillContainer = async () => {
+export const fillContainer = async () => {
     const tasks = await getTasks();
 
     const container = {
@@ -59,6 +59,10 @@ const fillContainer = async () => {
         doing: document.getElementById('doingContainer') as HTMLDivElement,
         done: document.getElementById('doneContainer') as HTMLDivElement,
     }
+
+    container.todo.innerHTML = "";
+    container.doing.innerHTML = "";
+    container.done.innerHTML = "";
 
     if (tasks && container) {
         tasks.forEach(task => {

@@ -7,6 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+import { fillContainer } from "./main.js";
 export const createAddForm = () => {
     const element = document.createElement('section');
     element.id = "addContainer";
@@ -95,6 +96,7 @@ const handleAdd = (data, container) => __awaiter(void 0, void 0, void 0, functio
             const response = yield result.json();
             if (result.ok) {
                 container.remove();
+                fillContainer();
             }
         }
         catch (err) {

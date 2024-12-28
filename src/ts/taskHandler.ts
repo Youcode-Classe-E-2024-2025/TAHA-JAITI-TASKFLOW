@@ -15,7 +15,7 @@ interface task {
 
 export const createTask = (task: task) => {
     const role = sessionStorage.getItem('role') || null;
-    const checkRole = role === "supervisor" ? 'block' : 'none';
+    const checkRole = role === "supervisor" ? '<i class="fa-solid fa-trash text-red-500"></i>' : '';
 
     const limitDesc = task.description.length > 50 
         ? task.description.slice(0, 50) + '...' 
@@ -24,21 +24,23 @@ export const createTask = (task: task) => {
     const typeColor = task.type === 'basic' ? 'gray' : task.type === 'bug' ? 'red' : 'green';
 
     const element = document.createElement('div');
-    element.className = `bg-gray-700 w-full h-fit p-2 rounded-sm drop-shadow-lg cursor-pointer`;
+    element.className = `bg-gray-700 w-full h-fit p-2 rounded-sm drop-shadow-lg cursor-pointer hover:bg-gray-900`;
     element.id = `task${task.id}`;
 
     element.innerHTML = `<div class="flex justify-between items-center">
                         <h3>${task.title}</h3>
                         <div class="flex items-center justify-center gap-4">
-                            <i class="fa-solid fa-trash text-red-500" style="display: ${checkRole}"></i>
+                            ${checkRole}
                             <i class="fa-solid fa-pen-to-square text-blue-400"></i>
                         </div>
                     </div>
                     <p>${limitDesc}</p>
-                    <p>${task.deadline}</p>
-                    <div class="flex justify-between items-center">
+                    <div class="flex justify-between items-center mt-4">
                         <p>By: ${task.created_by_name}</p>
-                        <p class="bg-${typeColor}-800 px-2 rounded-sm">${task.type.toUpperCase()}</p>
+                        <div class ="flex gap-2">
+                            <p class="bg-orange-700 px-2 rounded-sm">${task.deadline}</p>
+                            <p class="bg-${typeColor}-800 px-2 rounded-sm">${task.type.toUpperCase()}</p>
+                        </div>
                     </div>`;
     
     element.addEventListener('click', (e: Event) => {

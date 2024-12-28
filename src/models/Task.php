@@ -61,7 +61,22 @@ class Task {
     }
 
     public function getTaskById ($id) {
-        $sql = "SELECT * FROM $this->table WHERE id = :id";
+        $sql = "SELECT 
+                    t.*, 
+                    u1.username AS created_by_name, 
+                    STRING_AGG(u2.username, ', ') AS assignees
+                FROM 
+                    tasks t
+                JOIN 
+                    users u1 ON t.created_by = u1.id
+                LEFT JOIN 
+                    user_assignments ua ON t.id = ua.task_id
+                LEFT JOIN 
+                    users u2 ON ua.user_id = u2.id
+                WHERE ua.user_id = :id
+                GROUP BY 
+                    t.id, u1.username;";
+
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':id', $id);
 

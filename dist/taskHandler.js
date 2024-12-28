@@ -7,22 +7,22 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { displayTask } from "./displayTask.js";
+import { displayTask } from "./taskController.js";
 export const createTask = (task) => {
     const role = sessionStorage.getItem('role') || null;
-    const checkRole = role === "supervisor" ? '<i class="fa-solid fa-trash text-red-500"></i>' : '';
+    const checkRole = role === "supervisor" ? '<i id="deleteTask" class="fa-solid fa-trash text-red-500 text-xl"></i>' : '';
     const limitDesc = task.description.length > 50
         ? task.description.slice(0, 50) + '...'
         : task.description;
     const typeColor = task.type === 'basic' ? 'gray' : task.type === 'bug' ? 'red' : 'green';
     const element = document.createElement('div');
-    element.className = `bg-gray-700 w-full h-fit p-2 rounded-sm drop-shadow-lg cursor-pointer hover:bg-gray-900`;
+    element.className = `bg-gray-700 w-full h-fit p-2 rounded-sm drop-shadow-lg cursor-pointer hover:bg-gray-800/80`;
     element.id = `task${task.id}`;
     element.innerHTML = `<div class="flex justify-between items-center">
                         <h3>${task.title}</h3>
                         <div class="flex items-center justify-center gap-4">
                             ${checkRole}
-                            <i class="fa-solid fa-pen-to-square text-blue-400"></i>
+                            <i class="text-xl fa-solid fa-pen-to-square text-blue-400"></i>
                         </div>
                     </div>
                     <p>${limitDesc}</p>
@@ -33,6 +33,11 @@ export const createTask = (task) => {
                             <p class="bg-${typeColor}-800 px-2 rounded-sm">${task.type.toUpperCase()}</p>
                         </div>
                     </div>`;
+    const delBtn = element.querySelector('#deleteTask');
+    delBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        console.log('DELETE THIS');
+    });
     element.addEventListener('click', (e) => {
         e.stopPropagation();
         displayTask(task);

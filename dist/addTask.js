@@ -83,7 +83,7 @@ const handleAdd = (data) => __awaiter(void 0, void 0, void 0, function* () {
         const status = data.get('status');
         const deadline = data.get('deadline');
         const assignUsers = data.getAll('assignUsers');
-        const detectType = type === 'basic' ? 'basic' : type === 'bug' ? 'bug' : 'feature';
+        const detectType = type === 'task' ? 'task' : type === 'bug' ? 'bug' : 'feature';
         try {
             const result = yield fetch(`http://localhost/api/create?type=${detectType}`, {
                 method: 'POST',

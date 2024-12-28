@@ -16,10 +16,10 @@ export const createTask = (task: task) => {
         ? task.description.slice(0, 20) + '...' 
         : task.description;
 
-    // const color
+    const color = task.type === 'basic' ? 'gray' : task.type === 'bug' ? 'orange' : 'green';
 
     const element = document.createElement('div');
-    element.className = 'bg-gray-700 w-full h-fit p-2 rounded-sm drop-shadow-lg';
+    element.className = `bg-${color}-700 w-full h-fit p-2 rounded-sm drop-shadow-lg`;
     element.id = `task${task.id}`;
     element.innerHTML = `<div class="flex justify-between items-center">
                         <h3>${task.title}</h3>

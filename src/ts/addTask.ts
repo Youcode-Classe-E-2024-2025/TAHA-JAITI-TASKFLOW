@@ -93,7 +93,7 @@ const handleAdd = async (data: FormData) => {
         const deadline = data.get('deadline') as  string;
         const assignUsers = data.getAll('assignUsers') as string[];
 
-        const detectType = type === 'basic' ? 'basic' : type === 'bug' ? 'bug' : 'feature';
+        const detectType = type === 'task' ? 'task' : type === 'bug' ? 'bug' : 'feature';
 
         try{
             const result = await fetch(`http://localhost/api/create?type=${detectType}`, {

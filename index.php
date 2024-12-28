@@ -1,14 +1,6 @@
 <?php
 session_start();
 
-enum httpMethods{
-    case GET;
-    case POST;
-    case DELETE;
-    case PATCH;
-}
-
-
 require_once __DIR__ . '/src/loader.php';
 
 $db = new Database();
@@ -19,13 +11,9 @@ $router = new Router();
 
 $userController = new UserController($conn);
 
-$router->addRoute('POST', '/register', function() use ($userController) {
-    $userController->registerUser();
-});
+$router->addRoute('POST', '/register', fn() => $userController->registerUser());
 
-$router->addRoute('POST', '/login', function() use ($userController) {
-    $userController->loginUser();
-});
+$router->addRoute('POST', '/login', fn() => $userController->loginUser());
 
 $router->addRoute('POST', '/create', function() use ($conn) {
     $taskType = $_GET['type'] ?? null;
@@ -38,7 +26,7 @@ $router->addRoute('POST', '/assigntask', function() use ($conn) {
     $taskController->assignUser();
 });
 
-$router->addRoute('POST', '/changestatus', function() use ($conn) {
+$router->addRoute('PATCH', '/changestatus', function() use ($conn) {
     $taskController = new TaskController($conn);
     $taskController->changeStatus();
 });
@@ -51,6 +39,11 @@ $router->addRoute('GET', '/users', function() use ($userController){
 $router->addRoute('GET', '/', function (){
     header('Location: /public/index.html');
     exit;
+});
+
+$router->addRoute('GET', '/tasks', function () use ($conn) {
+    $taskController = new TaskController($conn);
+    $taskController->getTasks();
 });
 
 $router->addRoute('GET', '/logout' , fn() => $userController->logOut());

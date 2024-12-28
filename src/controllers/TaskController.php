@@ -69,4 +69,19 @@ class TaskController extends Controller {
             $this->errResponse($e->getMessage());
         }
     }
+
+    public function getTasks() {
+        $this->requireRole('supervisor');
+        try {
+            $tasks = $this->taskService->getTasks();
+
+            if ($tasks){
+                $this->basicResponse($tasks);
+            } else {
+                $this->errResponse('No tasks found', 200);
+            }
+        } catch (Exception $e){
+            $this->errResponse('Error getting the data');
+        }
+    }
 }   

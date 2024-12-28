@@ -63,4 +63,10 @@ class TaskService extends Service{
         $this->taskModel->applyStatus();
     }
 
+    public function getTasks() {
+        $this->requireRole('supervisor');
+        $tasks =  $this->taskModel->getTasks();
+        return $tasks;
+    }
+
 }

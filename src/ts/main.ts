@@ -1,3 +1,5 @@
+import { createTask } from "./taskHandler.js";
+
 export const createMain = () => {
     const element = document.createElement('main');
     element.className = 'h-full w-full flex justify-between gap-10 p-4';

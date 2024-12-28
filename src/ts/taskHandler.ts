@@ -9,7 +9,7 @@ interface task {
     created_by: string,
 }
 
-const createTask = (task: task) => {
+export const createTask = (task: task) => {
     const element = document.createElement('div');
     element.id = `task${task.id}`;
     element.innerHTML = `<div class="flex justify-between items-center">

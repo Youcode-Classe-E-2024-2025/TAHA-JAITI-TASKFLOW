@@ -124,7 +124,6 @@ function renderErrPage() {
     root.innerHTML += errPage();
 }
 
-
 //--- LOG OUT LOGIC
 async function logOut() {
     try {

@@ -1,5 +1,4 @@
-"use strict";
-const createTask = (task) => {
+export const createTask = (task) => {
     const element = document.createElement('div');
     element.id = `task${task.id}`;
     element.innerHTML = `<div class="flex justify-between items-center">

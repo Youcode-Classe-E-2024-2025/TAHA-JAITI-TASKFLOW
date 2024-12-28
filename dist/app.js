@@ -124,7 +124,6 @@ function logOut() {
                 throw new Error("Logout failed");
             }
             const result = yield response.json();
-            alert(result.message);
             sessionStorage.clear();
             navigate("/login");
         }

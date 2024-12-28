@@ -12,15 +12,14 @@ interface task {
 }
 
 export const createTask = (task: task) => {
-    const limitDesc = task.description.length > 20 
-        ? task.description.slice(0, 20) + '...' 
+    const limitDesc = task.description.length > 50 
+        ? task.description.slice(0, 50) + '...' 
         : task.description;
 
-    const color = task.type === 'basic' ? 'gray' : task.type === 'bug' ? 'orange' : 'green';
     const typeColor = task.type === 'basic' ? 'gray' : task.type === 'bug' ? 'red' : 'green';
 
     const element = document.createElement('div');
-    element.className = `bg-${color}-700 w-full h-fit p-2 rounded-sm drop-shadow-lg`;
+    element.className = `bg-gray-700 w-full h-fit p-2 rounded-sm drop-shadow-lg`;
     element.id = `task${task.id}`;
     element.innerHTML = `<div class="flex justify-between items-center">
                         <h3>${task.title}</h3>

@@ -63,11 +63,11 @@ export const createAddForm = () => {
     form.addEventListener('submit', (e) => {
         e.preventDefault();
         const data = new FormData(form);
-        handleAdd(data);
+        handleAdd(data, element);
     });
     return element;
 };
-const handleAdd = (data) => __awaiter(void 0, void 0, void 0, function* () {
+const handleAdd = (data, container) => __awaiter(void 0, void 0, void 0, function* () {
     console.log(data);
     //     0: title → "Hic obcaecati duis m"
     //     1: description → "Magnam perspiciatis"
@@ -94,8 +94,7 @@ const handleAdd = (data) => __awaiter(void 0, void 0, void 0, function* () {
             });
             const response = yield result.json();
             if (result.ok) {
-                console.log('TASK ADDED');
-                console.log(response);
+                container.remove();
             }
         }
         catch (err) {

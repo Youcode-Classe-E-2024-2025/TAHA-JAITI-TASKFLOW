@@ -14,7 +14,7 @@ export const createHeader = () => {
             <p class="text-2xl">TASKFLOW</p>
             <ul class="flex items-center gap-5">
                 <li>
-                    <button id="addTask" class="btn_primary" >+</button>
+                    <button id="addTask" class="btn_primary" style="display: ${checkRole}">+</button>
                 </li>
                 <li>
                     <a href="/logout" class="btn_primary" style="display: ${checkUserLoggedIn}">Log out</a>

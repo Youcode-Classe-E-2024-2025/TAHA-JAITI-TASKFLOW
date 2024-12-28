@@ -134,7 +134,6 @@ async function logOut() {
 
         const result = await response.json();
 
-        alert(result.message);
         sessionStorage.clear();
         navigate("/login");
     } catch (error) {

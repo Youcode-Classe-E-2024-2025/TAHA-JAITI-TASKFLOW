@@ -68,13 +68,13 @@ export const createAddForm = () => {
         e.preventDefault();
         const data = new FormData(form);
 
-        handleAdd(data);
+        handleAdd(data, element);
     });
 
     return element;
 };
 
-const handleAdd = async (data: FormData) => {
+const handleAdd = async (data: FormData, container: HTMLElement) => {
     console.log(data);
 
 //     0: title → "Hic obcaecati duis m"
@@ -107,9 +107,7 @@ const handleAdd = async (data: FormData) => {
             const response = await result.json();
 
             if (result.ok){
-                console.log('TASK ADDED');
-                console.log(response);
-                
+                container.remove();
             }
 
         } catch (err){

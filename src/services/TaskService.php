@@ -69,6 +69,16 @@ class TaskService extends Service{
         return $tasks;
     }
 
+    public function getEmployeeTasks($data){
+        $this->requireLogin();
+        if (empty($data->id)){
+            throw new Exception('No id supplied');
+        }
+
+        $tasks = $this->taskModel->getTaskById($data->id);
+        return $tasks;
+    }
+
     public function deleteTask($data) {
         $this->requireRole('supervisor');
         if (empty($data->id)){

@@ -1,4 +1,5 @@
 import { fillContainer } from "./main.js";
+import { getTasks } from "./taskHandler.js";
 
 interface task {
     id: number,

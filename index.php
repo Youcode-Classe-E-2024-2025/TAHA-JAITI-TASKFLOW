@@ -52,5 +52,9 @@ $router->addRoute('DELETE', '/tasks', function() use ($conn) {
     $taskController = new TaskController($conn);
     $taskController->deleteTask();
 });
+$router->addRoute('POST', '/mytasks', function() use ($conn) {
+    $taskController = new TaskController($conn);
+    $taskController->getEmployeeTasks();
+});
 
 $router->handleRequest($_SERVER['REQUEST_METHOD'], isset($_GET['url']) ? '/' . $_GET['url'] : '/');

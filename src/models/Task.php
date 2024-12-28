@@ -60,13 +60,13 @@ class Task {
         return false;
     }
 
-    public function getTaskById () {
+    public function getTaskById ($id) {
         $sql = "SELECT * FROM $this->table WHERE id = :id";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bindParam(':id', $this->id);
+        $stmt->bindParam(':id', $id);
 
         if ($stmt->execute()) {
-            return $stmt->fetch(PDO::FETCH_OBJ);
+            return $stmt->fetchAll(PDO::FETCH_OBJ);
         }
         return false;
     }

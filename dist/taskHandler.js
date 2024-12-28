@@ -34,10 +34,12 @@ export const createTask = (task) => {
                         </div>
                     </div>`;
     const delBtn = element.querySelector('#deleteTask');
-    delBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        deleteTask(task);
-    });
+    if (delBtn) {
+        delBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            deleteTask(task);
+        });
+    }
     element.addEventListener('click', (e) => {
         e.stopPropagation();
         displayTask(task);
@@ -49,6 +51,28 @@ export const getTasks = () => __awaiter(void 0, void 0, void 0, function* () {
         const response = yield fetch('http://localhost/api/tasks', { method: 'GET' });
         if (response.ok) {
             const tasks = yield response.json();
+            return tasks;
+        }
+    }
+    catch (err) {
+        console.error(err);
+        alert('failed getting tasks');
+    }
+    return null;
+});
+export const getEmployeeTask = () => __awaiter(void 0, void 0, void 0, function* () {
+    const employeeId = sessionStorage.getItem('user_id');
+    try {
+        const response = yield fetch('http://localhost/api/mytasks', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ id: employeeId }),
+        });
+        if (response.ok) {
+            const data = yield response.json();
+            const tasks = data.data;
             return tasks;
         }
     }

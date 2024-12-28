@@ -1,4 +1,4 @@
-import { createTask, getTasks } from "./taskHandler.js";
+import { createTask, getTasks, getEmployeeTask } from "./taskHandler.js";
 
 export const createMain = () => {
     const element = document.createElement('main');
@@ -48,11 +48,20 @@ export const createMain = () => {
 
     fillContainer();
 
+
     return element;
 };
 
 export const fillContainer = async () => {
-    const tasks = await getTasks();
+    const role = sessionStorage.getItem('role') || null;
+
+    if (!role) {
+        console.error("Role is not set in session storage.");
+        return;
+    }
+
+
+    const tasks = role === 'supervisor' ? await getTasks() : role === 'employee' ? await getEmployeeTask() : [];
 
     const container = {
         todo: document.getElementById('todoContainer') as HTMLDivElement,
@@ -66,15 +75,17 @@ export const fillContainer = async () => {
         done: document.getElementById('doneCounter') as HTMLDivElement,
     }
 
-    container.todo.innerHTML = "";
-    container.doing.innerHTML = "";
-    container.done.innerHTML = "";
-
     let todo = 0;
     let doing = 0;
     let done = 0;
 
-    if (tasks && container && counters) {
+    console.log('HEHE', tasks);
+    
+
+    if (tasks && tasks.length > 0 && container && counters) {
+        container.todo.innerHTML = "";
+        container.doing.innerHTML = "";
+        container.done.innerHTML = "";
         tasks.forEach(task => {
             const taskElement = createTask(task);
 

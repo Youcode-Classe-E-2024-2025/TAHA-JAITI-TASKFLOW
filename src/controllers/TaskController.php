@@ -17,7 +17,7 @@ class TaskController extends Controller {
     public function createTask() {
         try {
             $this->requireRole('supervisor');
-            $data = json_decode(file_get_contents('php://input'));
+            $data = $data = $this->getRequestData();
 
             if (empty($data)) {
                 http_response_code(400);
@@ -36,7 +36,7 @@ class TaskController extends Controller {
     public function assignUser() {
         try {
             $this->requireRole('supervisor');
-            $data = json_decode(file_get_contents('php://input'));
+            $data = $data = $this->getRequestData();
 
             if (empty($data)) {
                 http_response_code(400);
@@ -54,7 +54,7 @@ class TaskController extends Controller {
 
     public function changeStatus() {
         try {
-            $data = json_decode(file_get_contents('php://input'));
+            $data = $data = $this->getRequestData();
 
             if (empty($data)) {
                 http_response_code(400);
@@ -85,10 +85,27 @@ class TaskController extends Controller {
         }
     }
 
+    public function getEmployeeTasks(){
+        $this->requireLogin();
+        try {
+
+            $data = $data = $this->getRequestData();
+            $tasks = $this->taskService->getEmployeeTasks($data);
+
+            if ($tasks){
+                $this->successResponse($tasks);
+            } else {
+                $this->errResponse('No tasks found', 200);
+            }
+        } catch (Exception $e){
+            $this->errResponse('Error getting the data');
+        }
+    }
+
     public function deleteTask() {
         $this->requireRole('supervisor');
         try {
-            $data = json_decode(file_get_contents('php://input'));
+            $data = $this->getRequestData();
 
             if (empty($data)){
                 $this->errResponse('Empty Data');

@@ -45,11 +45,13 @@ export const createTask = (task: task) => {
     
     const delBtn = element.querySelector('#deleteTask') as HTMLButtonElement;
 
-    delBtn.addEventListener('click', (e: Event) => {
-        e.stopPropagation();
-        deleteTask(task);
-        
-    });
+    if (delBtn){
+        delBtn.addEventListener('click', (e: Event) => {
+            e.stopPropagation();
+            deleteTask(task);
+            
+        });
+    }
 
     element.addEventListener('click', (e: Event) => {
         e.stopPropagation();
@@ -73,4 +75,27 @@ export const getTasks = async (): Promise<task[] | null> => {
     return null;
 };
 
+export const getEmployeeTask = async (): Promise<task[] | null> => {
+    const employeeId = sessionStorage.getItem('user_id');
 
+        try {
+            const response = await fetch('http://localhost/api/mytasks', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ id: employeeId }),
+            });
+    
+            if (response.ok){
+                const data = await response.json();
+                const tasks = data.data;
+                return tasks;
+            }
+        } catch (err){
+            console.error(err);
+            alert('failed getting tasks');
+        }
+
+    return null;    
+};

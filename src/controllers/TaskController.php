@@ -84,4 +84,21 @@ class TaskController extends Controller {
             $this->errResponse('Error getting the data');
         }
     }
+
+    public function deleteTask() {
+        $this->requireRole('supervisor');
+        try {
+            $data = json_decode(file_get_contents('php://input'));
+
+            if (empty($data)){
+                $this->errResponse('Empty Data');
+            }
+
+            $this->taskService->deleteTask($data);
+
+            $this->successResponse($data, 'Task deleted succesfuly');
+        } catch (Exception $e){
+            $this->errResponse('t7wa');
+        }
+    }
 }   

@@ -48,4 +48,9 @@ $router->addRoute('GET', '/tasks', function () use ($conn) {
 
 $router->addRoute('GET', '/logout' , fn() => $userController->logOut());
 
+$router->addRoute('DELETE', '/tasks', function() use ($conn) {
+    $taskController = new TaskController($conn);
+    $taskController->deleteTask();
+});
+
 $router->handleRequest($_SERVER['REQUEST_METHOD'], isset($_GET['url']) ? '/' . $_GET['url'] : '/');

@@ -69,4 +69,12 @@ class TaskService extends Service{
         return $tasks;
     }
 
+    public function deleteTask($data) {
+        $this->requireRole('supervisor');
+        if (empty($data->id)){
+            throw new Exception('Empty task id');
+        }
+
+        $this->taskModel->deleteTask(intval($data->id));
+    }
 }

@@ -1,4 +1,4 @@
-import { displayTask } from "./taskController.js"
+import { displayTask, deleteTask} from "./taskController.js"
 
 interface task {
     id: number,
@@ -47,7 +47,7 @@ export const createTask = (task: task) => {
 
     delBtn.addEventListener('click', (e: Event) => {
         e.stopPropagation();
-        console.log('DELETE THIS');
+        deleteTask(task);
         
     });
 

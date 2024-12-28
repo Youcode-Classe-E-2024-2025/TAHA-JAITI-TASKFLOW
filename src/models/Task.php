@@ -131,4 +131,22 @@ class Task {
         }
     }
 
+    public function deleteTask($id){
+        try {
+            $sql = "DELETE FROM $this->table WHERE id = :id";
+    
+            $stmt = $this->conn->prepare($sql);
+    
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+    
+            $stmt->execute();
+    
+            if ($stmt->rowCount() === 0) {
+                throw new Exception('Task not found or already deleted.');
+            }
+        } catch (PDOException $e) {
+            throw new Exception('Database error: ' . $e->getMessage());
+        }
+    }   
+
 }

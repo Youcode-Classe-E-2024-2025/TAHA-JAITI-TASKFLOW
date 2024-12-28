@@ -1,3 +1,12 @@
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 const root = document.getElementById('root');
 if (!root) {
     throw new Error('root not found');
@@ -33,3 +42,23 @@ export const displayTask = (task) => {
     });
     root.appendChild(element);
 };
+export const deleteTask = (task) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield fetch(`http://localhost/api/tasks`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id: task.id })
+        });
+        const response = yield result.json();
+        if (result.ok) {
+            alert(response.message);
+            return true;
+        }
+    }
+    catch (err) {
+        console.error(err);
+        return null;
+    }
+});

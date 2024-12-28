@@ -51,5 +51,27 @@ export const displayTask = (task: task) => {
 
 
     root.appendChild(element);
-    
 };
+
+export const deleteTask = async (task: task) => {
+    try {
+        const result = await fetch(`http://localhost/api/tasks`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({id: task.id})
+        });
+
+        const response = await result.json();
+
+        if (result.ok){
+            alert(response.message);
+            return true;
+        }
+
+    } catch (err){
+        console.error(err);
+        return null;
+    }
+}

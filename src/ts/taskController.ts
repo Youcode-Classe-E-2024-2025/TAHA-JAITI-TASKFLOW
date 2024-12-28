@@ -1,3 +1,5 @@
+import { fillContainer } from "./main.js";
+
 interface task {
     id: number,
     title: string,
@@ -67,6 +69,7 @@ export const deleteTask = async (task: task) => {
 
         if (result.ok){
             alert(response.message);
+            fillContainer();
             return true;
         }
 

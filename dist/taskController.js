@@ -7,6 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+import { fillContainer } from "./main.js";
 const root = document.getElementById('root');
 if (!root) {
     throw new Error('root not found');
@@ -54,6 +55,7 @@ export const deleteTask = (task) => __awaiter(void 0, void 0, void 0, function* 
         const response = yield result.json();
         if (result.ok) {
             alert(response.message);
+            fillContainer();
             return true;
         }
     }

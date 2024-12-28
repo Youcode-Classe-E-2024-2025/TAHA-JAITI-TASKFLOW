@@ -1,4 +1,3 @@
-import { createTask, getTasks } from "./taskHandler.js";
 import { fillContainer } from "./main.js";
 
 interface user{

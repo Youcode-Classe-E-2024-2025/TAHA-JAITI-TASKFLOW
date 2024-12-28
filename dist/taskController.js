@@ -13,33 +13,94 @@ if (!root) {
     throw new Error('root not found');
 }
 export const displayTask = (task) => {
-    const typeColor = task.type === 'basic' ? 'gray' : task.type === 'bug' ? 'red' : 'green';
+    const assignees = task.assignees.split(',').map(a => a.trim());
+    const typeColor = {
+        basic: 'slate',
+        bug: 'rose',
+        feature: 'emerald'
+    }[task.type];
     const date = new Date(task.created_at);
     const element = document.createElement('div');
-    element.className = 'fixed flex justify-center items-center top-0 inset-0 backdrop-blur-sm h-screen w-screen bg-black/20';
-    element.innerHTML = `<div class="bg-gray-700 flex flex-col gap-4 p-4 h-fit w-1/2 rounded-sm drop-shadow-lg">
-                            <div class="flex justify-between">
-                                <p class="text-2xl">${task.title}</p>
-                                <button id="closeDisplay" class="text-2xl">X</button>
+    element.className = `fixed inset-0 flex items-center justify-center backdrop-blur-sm bg-black/40 z-50 `;
+    element.innerHTML = `<div class="bg-gray-800 w-full max-w-2xl rounded-lg shadow-2xl p-6 space-y-6 ">
+                            <!-- Header -->
+                            <div class="flex justify-between items-start">
+                                <h2 class="text-2xl font-bold text-gray-100">${task.title}</h2>
+                                <button id="closeDisplay" class="
+                                    p-2 
+                                    hover:bg-gray-700 
+                                    rounded-full 
+                                    transition-colors 
+                                    text-gray-400 
+                                    hover:text-gray-200
+                                ">
+                                    <i class="fa-solid fa-times text-xl"></i>
+                                </button>
                             </div>
-                            <p>DESCRIPTION</p>
-                            <p class="h-fit rounded-sm w-full bg-gray-800 p-2">
-                                ${task.description}
-                            </p>
-                            <p>ASSIGNEES</p>
-                            <div class="h-fit rounded-sm w-full bg-gray-800 p-2">
-                                ${task.assignees}
+
+                            <!-- Status and Type -->
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-${typeColor}-900/50 text-${typeColor}-400 px-3 py-1 rounded-full text-sm font-medium">
+                                    ${task.type.toUpperCase()}
+                                </span>
+                                <span class="bg-orange-900/50 text-orange-400 px-3 py-1 rounded-full text-sm font-medium">
+                                    <i class="fa-regular fa-clock mr-1"></i>
+                                    ${task.deadline}
+                                </span>
                             </div>
-                            <div class="flex justify-between">
-                                <p class="bg-${typeColor}-800 px-2 rounded-sm">${task.type.toUpperCase()}</p>
-                                <p class="bg-orange-800 px-2 rounded-sm">DEADLINE:  ${task.deadline}</p>
-                                <p class="bg-yellow-800 px-2 rounded-sm">CREATED AT:  ${date.toISOString().split('T')[0]}</p>
-                                <p class="bg-blue-900 px-2 rounded-sm">BY: ${task.created_by_name}</p>
+
+                            <!-- Description Section -->
+                            <div class="space-y-2">
+                                <h3 class="text-sm font-medium text-gray-400 uppercase tracking-wider">Description</h3>
+                                <div class="bg-gray-900/50 rounded-lg p-4 text-gray-300">
+                                    ${task.description}
+                                </div>
                             </div>
-                        </div>`;
+
+                            <!-- Assignees Section -->
+                            <div class="space-y-2">
+                                <h3 class="text-sm font-medium text-gray-400 uppercase tracking-wider">Assignees</h3>
+                                <div class="bg-gray-900/50 rounded-lg p-4">
+                                    <div class="flex flex-wrap gap-2">
+                                        ${assignees.map(assignee => `
+                                            <div class="flex items-center gap-2 bg-gray-800 px-3 py-1 rounded-full">
+                                                <div class="w-6 h-6 rounded-full bg-gray-700 flex items-center justify-center">
+                                                    <span class="text-xs font-medium">${assignee.charAt(0)}</span>
+                                                </div>
+                                                <span class="text-sm text-gray-300">${assignee}</span>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Footer -->
+                            <div class="border-t border-gray-700 pt-4 flex flex-wrap gap-4">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center">
+                                        <span class="text-sm font-medium">${task.created_by_name.charAt(0)}</span>
+                                    </div>
+                                    <div class="text-sm">
+                                        <p class="text-gray-400">Created by</p>
+                                        <p class="text-gray-200 font-medium">${task.created_by_name}</p>
+                                    </div>
+                                </div>
+
+                                <div class="text-sm">
+                                    <p class="text-gray-400">Created on</p>
+                                    <p class="text-gray-200 font-medium">${date.toISOString().split('T')[0]}</p>
+                                </div>
+                            </div>
+                        </div>
+    `;
     const closeBtn = element.querySelector('#closeDisplay');
     closeBtn.addEventListener('click', () => {
         element.remove();
+    });
+    element.addEventListener('click', (e) => {
+        if (e.target === element) {
+            closeBtn.click();
+        }
     });
     root.appendChild(element);
 };

@@ -77,10 +77,7 @@ export const fillContainer = async () => {
 
     let todo = 0;
     let doing = 0;
-    let done = 0;
-
-    console.log('HEHE', tasks);
-    
+    let done = 0;    
 
     if (tasks && tasks.length > 0 && container && counters) {
         container.todo.innerHTML = "";

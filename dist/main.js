@@ -76,7 +76,6 @@ export const fillContainer = () => __awaiter(void 0, void 0, void 0, function* (
     let todo = 0;
     let doing = 0;
     let done = 0;
-    console.log('HEHE', tasks);
     if (tasks && tasks.length > 0 && container && counters) {
         container.todo.innerHTML = "";
         container.doing.innerHTML = "";

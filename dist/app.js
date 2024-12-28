@@ -72,14 +72,20 @@ function handleNavigation(event) {
         const form = target;
         event.preventDefault();
         if (form.id === "loginForm") {
-            handleLogin()
-                .then(() => navigate("/"))
-                .catch((error) => console.error("Login failed:", error));
+            form.onsubmit = (e) => {
+                e.preventDefault();
+                handleLogin()
+                    .then(() => navigate("/"))
+                    .catch((error) => console.error("Login failed:", error));
+            };
         }
         if (form.id === "registerForm") {
-            handleRegister()
-                .then(() => navigate("/login"))
-                .catch((error) => console.error("Register failed:", error));
+            form.onsubmit = (e) => {
+                e.preventDefault();
+                handleRegister()
+                    .then(() => navigate("/login"))
+                    .catch((error) => console.error("Register failed:", error));
+            };
         }
     }
 }

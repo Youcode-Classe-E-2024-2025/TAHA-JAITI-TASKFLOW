@@ -77,15 +77,21 @@ function handleNavigation(event: Event) {
         event.preventDefault();
 
         if (form.id === "loginForm") {
-            handleLogin()
+            form.onsubmit = (e) => {
+                e.preventDefault();
+                handleLogin()
                 .then(() => navigate("/"))
                 .catch((error) => console.error("Login failed:", error));
+            }
         }
 
         if (form.id === "registerForm") {
-            handleRegister()
+            form.onsubmit = (e) => {
+                e.preventDefault();
+                handleRegister()
                 .then(() => navigate("/login"))
                 .catch((error) => console.error("Register failed:", error));
+            }
         }
     }
 }

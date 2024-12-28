@@ -39,7 +39,7 @@ export const createLogin = () => {
                         placeholder="Enter your password"/>
                 </div>
 
-                <button type="submit" class="btn_primary w-full flex items-center justify-center gap-2">
+                <button data-auth type="submit" class="btn_primary w-full flex items-center justify-center gap-2">
                     <i class="fa-solid fa-right-to-bracket"></i>
                     Sign In
                 </button>

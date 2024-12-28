@@ -123,7 +123,7 @@ const handleAdd = async (data: FormData) => {
 
 const getUsers = async (): Promise<user[] | null> => {
     try {
-        const response = await fetch('http://localhost/api/users');
+        const response = await fetch('http://localhost/api/users', {method: 'GET'});
         if (response.ok){
             const users: user[] = await response.json();
             return users;

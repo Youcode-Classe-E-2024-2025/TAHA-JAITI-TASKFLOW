@@ -6,7 +6,9 @@ interface task {
     type: 'basic' | 'feature' | 'bug',
     deadline: Date,
     created_at: Date,
-    created_by: string,
+    updated_at: string,
+    created_by_name: string,
+    assignees: string[]
 }
 
 export const createTask = (task: task) => {
@@ -20,13 +22,29 @@ export const createTask = (task: task) => {
                         </div>
                     </div>
                     <p>${task.description}</p>
+                    <p>${task.deadline}</p>
                     <div class="flex justify-between items-center">
-                        <p>By: ${task.created_by}</p>
+                        <p>By: ${task.created_by_name}</p>
                         <p class="bg-green-800 px-2 rounded-sm">${task.type}</p>
                     </div>`;
     
 
     return element;
+};
+
+
+const getTasks = async (): Promise<task[] | null> => {
+    try {
+        const response = await fetch ('http://localhost/api/tasls', {method: 'GET'})
+        if (response.ok){
+            const tasks: task[] = await response.json();
+            return tasks;
+        }
+    } catch (err){
+        console.error(err);
+        alert('failed getting tasks');
+    }
+    return null;
 };
 
 

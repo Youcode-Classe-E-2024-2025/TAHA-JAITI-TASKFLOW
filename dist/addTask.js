@@ -106,7 +106,7 @@ const handleAdd = (data) => __awaiter(void 0, void 0, void 0, function* () {
 });
 const getUsers = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const response = yield fetch('http://localhost/api/users');
+        const response = yield fetch('http://localhost/api/users', { method: 'GET' });
         if (response.ok) {
             const users = yield response.json();
             return users;

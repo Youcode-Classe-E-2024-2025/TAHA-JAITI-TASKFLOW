@@ -12,6 +12,7 @@ export const createTask = (task) => {
         ? task.description.slice(0, 20) + '...'
         : task.description;
     const color = task.type === 'basic' ? 'gray' : task.type === 'bug' ? 'orange' : 'green';
+    const typeColor = task.type === 'basic' ? 'gray' : task.type === 'bug' ? 'red' : 'green';
     const element = document.createElement('div');
     element.className = `bg-${color}-700 w-full h-fit p-2 rounded-sm drop-shadow-lg`;
     element.id = `task${task.id}`;
@@ -26,7 +27,7 @@ export const createTask = (task) => {
                     <p>${task.deadline}</p>
                     <div class="flex justify-between items-center">
                         <p>By: ${task.created_by_name}</p>
-                        <p class="bg-green-800 px-2 rounded-sm">${task.type.toUpperCase()}</p>
+                        <p class="bg-${typeColor}-800 px-2 rounded-sm">${task.type.toUpperCase()}</p>
                     </div>`;
     return element;
 };

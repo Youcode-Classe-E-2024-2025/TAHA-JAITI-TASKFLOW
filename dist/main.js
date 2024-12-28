@@ -1,3 +1,13 @@
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+import { createTask, getTasks } from "./taskHandler.js";
 export const createMain = () => {
     const element = document.createElement('main');
     element.className = 'h-full w-full flex justify-between gap-10 p-4';
@@ -43,5 +53,28 @@ export const createMain = () => {
                             </div>
 
                         </div>`;
+    fillContainer();
     return element;
 };
+const fillContainer = () => __awaiter(void 0, void 0, void 0, function* () {
+    const tasks = yield getTasks();
+    const container = {
+        todo: document.getElementById('todoContainer'),
+        doing: document.getElementById('doingContainer'),
+        done: document.getElementById('doneContainer'),
+    };
+    if (tasks && container) {
+        tasks.forEach(task => {
+            const taskElement = createTask(task);
+            if (task.status === 'to-do') {
+                container.todo.appendChild(taskElement);
+            }
+            else if (task.status === 'in-progress') {
+                container.doing.appendChild(taskElement);
+            }
+            else if (task.status === 'completed') {
+                container.done.appendChild(taskElement);
+            }
+        });
+    }
+});

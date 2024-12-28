@@ -1,4 +1,4 @@
-import { createTask } from "./taskHandler.js";
+import { createTask, getTasks } from "./taskHandler.js";
 
 export const createMain = () => {
     const element = document.createElement('main');
@@ -46,7 +46,35 @@ export const createMain = () => {
 
                         </div>`;
 
+    fillContainer();
+
     return element;
 };
 
+const fillContainer = async () => {
+    const tasks = await getTasks();
+
+    const container = {
+        todo: document.getElementById('todoContainer') as HTMLDivElement,
+        doing: document.getElementById('doingContainer') as HTMLDivElement,
+        done: document.getElementById('doneContainer') as HTMLDivElement,
+    }
+
+    if (tasks && container) {
+        tasks.forEach(task => {
+
+            const taskElement = createTask(task);
+
+            if (task.status === 'to-do') {
+                container.todo.appendChild(taskElement);
+            } else if (task.status === 'in-progress') {
+                container.doing.appendChild(taskElement);
+            } else if (task.status === 'completed') {
+                container.done.appendChild(taskElement);
+            }
+
+        });
+    }
+
+};
 

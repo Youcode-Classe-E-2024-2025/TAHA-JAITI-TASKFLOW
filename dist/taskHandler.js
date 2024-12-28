@@ -8,7 +8,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 export const createTask = (task) => {
+    const limitDesc = task.description.length > 20
+        ? task.description.slice(0, 20) + '...'
+        : task.description;
+    // const color
     const element = document.createElement('div');
+    element.className = 'bg-gray-700 w-full h-fit p-2 rounded-sm drop-shadow-lg';
     element.id = `task${task.id}`;
     element.innerHTML = `<div class="flex justify-between items-center">
                         <h3>${task.title}</h3>
@@ -17,17 +22,17 @@ export const createTask = (task) => {
                             <p>EDIT</p>
                         </div>
                     </div>
-                    <p>${task.description}</p>
+                    <p>${limitDesc}</p>
                     <p>${task.deadline}</p>
                     <div class="flex justify-between items-center">
                         <p>By: ${task.created_by_name}</p>
-                        <p class="bg-green-800 px-2 rounded-sm">${task.type}</p>
+                        <p class="bg-green-800 px-2 rounded-sm">${task.type.toUpperCase()}</p>
                     </div>`;
     return element;
 };
-const getTasks = () => __awaiter(void 0, void 0, void 0, function* () {
+export const getTasks = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const response = yield fetch('http://localhost/api/tasls', { method: 'GET' });
+        const response = yield fetch('http://localhost/api/tasks', { method: 'GET' });
         if (response.ok) {
             const tasks = yield response.json();
             return tasks;

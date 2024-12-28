@@ -2,55 +2,60 @@ import { createTask, getTasks, getEmployeeTask } from "./taskHandler.js";
 
 export const createMain = () => {
     const element = document.createElement('main');
-    element.className = 'h-full w-full flex justify-between gap-10 p-4';
-    element.innerHTML = `<!-- TODO -->
-                        <div class="h-fit pb-1 w-1/3 bg-white/50 flex flex-col">
-                            <!-- HEADER -->
-                            <div class="bg-slate-950 h-fit p-4 flex justify-between items-center">
-                                <p>TO-DO</p>
-                                <p id="todoCounter" class="bg-purple-950 px-2 text-center rounded-sm">0</p>
-                            </div>
-                            <!-- container -->
-                            <div id="todoContainer" class="container h-[50rem] overflow-auto flex flex-col gap-2 p-2">
-                               
-                            </div>
+    element.className = 'max-w-[100rem] w-full mx-auto px-24 sm:px-6 lg:px-8 py-6';
+    element.innerHTML = `
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- TODO Column -->
+            <div class="flex flex-col bg-gray-900/50 rounded-lg backdrop-blur-sm border border-gray-800">
+                <div class="p-4 flex items-center justify-between border-b border-gray-800">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-regular fa-circle-dot text-blue-400"></i>
+                        <h2 class="font-semibold text-gray-200">TO-DO</h2>
+                    </div>
+                    <span id="todoCounter" class="px-2.5 py-0.5 rounded-full text-sm font-medium bg-gray-800 text-gray-300">
+                        0
+                    </span>
+                </div>
+                <div id="todoContainer" class="p-3 h-[calc(100vh-12rem)] overflow-y-auto space-y-3">
+                </div>
+            </div>
 
-                        </div>
+            <!-- IN PROGRESS Column -->
+            <div class="flex flex-col bg-gray-900/50 rounded-lg backdrop-blur-sm border border-gray-800">
+                <div class="p-4 flex items-center justify-between border-b border-gray-800">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-spinner text-amber-400"></i>
+                        <h2 class="font-semibold text-gray-200">IN-PROGRESS</h2>
+                    </div>
+                    <span id="doingCounter" class="px-2.5 py-0.5 rounded-full text-sm font-medium bg-gray-800 text-gray-300">
+                        0
+                    </span>
+                </div>
+                <div id="doingContainer" class="p-3 h-[calc(100vh-12rem)] overflow-y-auto space-y-3">
+                </div>
+            </div>
 
-                        <!-- IN PROGRESS -->
-                        <div class="h-fit pb-1 w-1/3 bg-white/50 flex flex-col">
-                            <!-- HEADER -->
-                            <div class="bg-slate-950 h-fit p-4 flex justify-between items-center">
-                                <p>IN-PROGRESS</p>
-                                <p id="doingCounter" class="bg-purple-950 px-2 text-center rounded-sm">0</p>
-                            </div>
-                            <!-- container -->
-                            <div id="doingContainer" class="container h-[50rem] overflow-auto flex flex-col gap-2 p-2">
-
-
-                            </div>
-
-                        </div>
-
-                        <!-- COMPLETED -->
-                        <div class="h-fit pb-1 w-1/3 bg-white/50 flex flex-col">
-                            <!-- HEADER -->
-                            <div class="bg-slate-950 h-fit p-4 flex justify-between items-center">
-                                <p>COMPLETED</p>
-                                <p id="doneCounter" class="bg-purple-950 px-2 text-center rounded-sm">0</p>
-                            </div>
-                            <!-- container -->
-                            <div id="doneContainer" class="container h-[50rem] overflow-auto flex flex-col gap-2 p-2 ">
-
-                            </div>
-
-                        </div>`;
-
+            <!-- COMPLETED Column -->
+            <div class="flex flex-col bg-gray-900/50 rounded-lg backdrop-blur-sm border border-gray-800">
+                <div class="p-4 flex items-center justify-between border-b border-gray-800">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-check-circle text-emerald-400"></i>
+                        <h2 class="font-semibold text-gray-200">COMPLETED</h2>
+                    </div>
+                    <span id="doneCounter" class="px-2.5 py-0.5 rounded-full text-sm font-medium bg-gray-800 text-gray-300">
+                        0
+                    </span>
+                </div>
+                <div id="doneContainer" class="p-3 h-[calc(100vh-12rem)] overflow-y-auto space-y-3">
+                </div>
+            </div>
+        </div>
+    `;
+    
     fillContainer();
-
-
     return element;
 };
+
 
 export const fillContainer = async () => {
     const role = sessionStorage.getItem('role') || null;

@@ -2,36 +2,60 @@
 export const createRegister = () => {
     const registerElement = document.createElement('div');
     registerElement.id = 'registerContainer';
-    registerElement.className = 'h-full w-full flex items-center justify-center';
+    registerElement.className = 'h-full w-full flex items-center justify-center bg-gradient-to-br from-gray-900 to-black p-4';
     registerElement.innerHTML = `
-            <div class="bg-gray-800 p-8 rounded-md shadow-md w-96">
-            <h2 class="text-2xl font-bold text-purple-500 mb-6">Register for TaskFlow</h2>
-            <form id="registerForm" class="space-y-4">
-                <div>
-                    <label for="username" class="block text-sm font-medium text-gray-300">Username</label>
+        <div class="bg-gray-800/90 backdrop-blur-sm p-8 rounded-xl shadow-2xl w-full max-w-md border border-gray-700">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent">
+                    Create Account
+                </h2>
+                <p class="text-gray-400 mt-2">Join TaskFlow to get started</p>
+            </div>
+
+            <form id="registerForm" class="space-y-6">
+                <div class="space-y-1">
+                    <label for="username" class="block text-sm font-medium text-gray-300">
+                        <i class="fa-regular fa-user mr-2 text-purple-400"></i>Username
+                    </label>
                     <input type="text" id="username" name="username" required
-                        class="input" />
+                        class="input" 
+                        placeholder="Choose a username"/>
                 </div>
-                <div>
-                    <label for="email" class="block text-sm font-medium text-gray-300">Email</label>
+
+                <div class="space-y-1">
+                    <label for="email" class="block text-sm font-medium text-gray-300">
+                        <i class="fa-regular fa-envelope mr-2 text-purple-400"></i>Email
+                    </label>
                     <input type="email" id="email" name="email" required
-                        class="input" />
+                        class="input" 
+                        placeholder="Enter your email"/>
                 </div>
-                <div>
-                    <label for="password" class="block text-sm font-medium text-gray-300">Password</label>
+
+                <div class="space-y-1">
+                    <label for="password" class="block text-sm font-medium text-gray-300">
+                        <i class="fa-regular fa-lock mr-2 text-purple-400"></i>Password
+                    </label>
                     <input type="password" id="password" name="password" required
-                        class="input" />
+                        class="input" 
+                        placeholder="Create a password"/>
                 </div>
-                <button type="submit"
-                    class="btn_primary w-full">
-                    Register
+
+                <button type="submit" class="btn_primary w-full flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-user-plus"></i>
+                    Create Account
                 </button>
             </form>
-            <p class="mt-4 text-sm text-gray-400">
-                Already have an account? <a href="/login" id="registerLink" class="w-full text-purple-500 hover:text-purple-400">Login here</a>
-            </p>
+
+            <div class="mt-8 text-center">
+                <p class="text-gray-400">
+                    Already have an account? 
+                    <a href="/login" id="registerLink" class="text-purple-400 hover:text-purple-300 font-medium ml-1 transition-colors">
+                        Sign in
+                    </a>
+                </p>
+            </div>
         </div>
-        `
+    `;
     return registerElement;
 };
 

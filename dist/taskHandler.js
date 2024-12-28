@@ -36,7 +36,7 @@ export const createTask = (task) => {
         p-4 transition-all 
         hover:shadow-xl 
         cursor-pointer 
-        transform hover:-translate-y-0.5
+        transform
     `;
     element.id = `task${task.id}`;
     element.innerHTML = `

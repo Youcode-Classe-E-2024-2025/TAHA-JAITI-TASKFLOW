@@ -52,6 +52,12 @@ $router->addRoute('DELETE', '/tasks', function() use ($conn) {
     $taskController = new TaskController($conn);
     $taskController->deleteTask();
 });
+
+$router->addRoute('PATCH', '/tasks', function() use ($conn) {
+    $taskController = new TaskController($conn);
+    $taskController->updateTask();
+});
+
 $router->addRoute('POST', '/mytasks', function() use ($conn) {
     $taskController = new TaskController($conn);
     $taskController->getEmployeeTasks();

@@ -179,7 +179,7 @@ export const editDisplay = (task, role) => {
                                             <i class="fa-solid fa-users mr-2 text-purple-400"></i>Assign Employees
                                         </label>
                                         <select id="editAssignUsers" name="assignUsers" multiple class="input min-h-[100px]">
-                                            <!-- Add options dynamically -->
+
                                         </select>
                                         <p class="text-xs text-gray-400 mt-1">Hold Ctrl/Cmd to select multiple employees</p>
                                     </div>
@@ -209,7 +209,9 @@ export const editDisplay = (task, role) => {
     });
     const editForm = element.querySelector('#editForm');
     editForm.addEventListener('submit', (e) => {
-        const data = new FormData(editForm);
+        // const data = new FormData(editForm);
+        // const assigned = data.getAll('assignUsers');
+        updateTask(task);
     });
     root.appendChild(element);
 };

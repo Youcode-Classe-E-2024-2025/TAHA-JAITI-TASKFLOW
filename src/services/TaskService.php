@@ -87,4 +87,35 @@ class TaskService extends Service{
 
         $this->taskModel->deleteTask(intval($data->id));
     }
+
+    public function updateTask($data){
+        $this->requireRole('supervisor');
+
+        if (empty($data->title) || empty($data->description) 
+            ||  empty($data->status) || empty($data->deadline) || empty($data->assignUsers)) {
+            throw new Exception('All fields are required');
+        }
+
+        $this->taskModel->setId(str_secure($data->id));
+        $this->taskModel->setTitle(str_secure($data->title));
+        $this->taskModel->setDesc(str_secure($data->description));
+        $this->taskModel->setStatus(str_secure($data->status));
+        $this->taskModel->setDeadline(str_secure($data->deadline));
+
+        $taskUpdated = $this->taskModel->updateTask();
+
+        if (!$taskUpdated) {
+            throw new Exception('Failed to update task');
+        }
+
+        if (!empty($data->assignUsers) && is_array($data->assignUsers)) {
+            $this->taskModel->clearAssignments($data->id);
+    
+            foreach ($data->assignUsers as $userId) {
+                $this->taskModel->assignUser(intval($userId), $data->id);
+            }
+        }
+
+        return true;
+    }
 }

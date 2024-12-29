@@ -164,4 +164,30 @@ class Task {
         }
     }   
 
+    public function updateTask(){
+        $sql = "UPDATE $this->table 
+                SET title = :title, 
+                    description = :description, 
+                    status = :status, 
+                    type = :type, 
+                    deadline = :deadline 
+                WHERE id = :id";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':title', $this->title);
+        $stmt->bindParam(':description', $this->description);
+        $stmt->bindParam(':status', $this->status);
+        $stmt->bindParam(':type', $this->type);
+        $stmt->bindParam(':deadline', $this->deadline);
+        $stmt->bindParam(':id', $this->id, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
+
+    public function clearAssignments($id){
+        $sql = "DELETE FROM task_assignments WHERE task_id = :task_id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':task_id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+    }
 }

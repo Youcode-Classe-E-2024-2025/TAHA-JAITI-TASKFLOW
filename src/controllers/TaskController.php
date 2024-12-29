@@ -118,4 +118,24 @@ class TaskController extends Controller {
             $this->errResponse('t7wa');
         }
     }
+
+    public function updateTask(){
+        $this->requireRole('supervisor');
+        try {
+
+            $data = $this->getRequestData();
+
+            if (empty($data)){
+                $this->errResponse('empty data');
+            }
+
+            $sucess = $this->taskService->updateTask($data);
+
+            if ($sucess){
+                $this->successResponse($data, 'Task updated successfuly');
+            }
+        } catch (Exception $e){
+            $this->errResponse($e);
+        }
+    }
 }   

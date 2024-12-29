@@ -17,7 +17,6 @@ CREATE TABLE tasks (
     deadline DATE NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    assigned_to INT REFERENCES users(id) ON DELETE SET NULL,
     created_by INT REFERENCES users(id) ON DELETE SET NULL
 );
 

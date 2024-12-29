@@ -174,7 +174,7 @@ const getUsers = () => __awaiter(void 0, void 0, void 0, function* () {
 });
 export const fillSelect = (select) => __awaiter(void 0, void 0, void 0, function* () {
     const users = yield getUsers();
-    if (select && users) {
+    if (select && users && users.length > 0) {
         select.innerHTML = '';
         const options = users.map((user) => {
             const option = document.createElement('option');

@@ -20,7 +20,7 @@ export const createTask = (task: task) => {
             '<i class="fa-solid fa-trash text-red-400 group-hover:text-red-500 transition-colors"></i>' +
         '</button>' : '';
     
-    const assignees = task.assignees.split(',').map(a => a.trim());
+    const assignees = task.assignees ? task.assignees.split(',').map(a => a.trim()) : [];
 
     const limitDesc = task.description.length > 50
         ? task.description.slice(0, 50) + '...'

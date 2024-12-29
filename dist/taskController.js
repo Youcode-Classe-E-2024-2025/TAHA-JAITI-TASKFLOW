@@ -20,7 +20,7 @@ if (!root) {
     throw new Error('root not found');
 }
 export const displayTask = (task) => {
-    const assignees = task.assignees.split(',').map(a => a.trim());
+    const assignees = task.assignees ? task.assignees.split(',').map(a => a.trim()) : [];
     const typeColor = {
         basic: 'slate',
         bug: 'rose',

@@ -23,7 +23,7 @@ class TaskService extends Service{
         $this->requireRole('supervisor');
 
         if (empty($data->title) || empty($data->description) 
-            ||  empty($data->status) || empty($data->deadline) || empty($data->assignUsers)) {
+            ||  empty($data->status) || empty($data->deadline)) {
             throw new Exception('All fields are required');
         }
 

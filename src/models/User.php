@@ -30,17 +30,23 @@ class User {
     }
 
     public function addUser() {
-        $sql = "INSERT INTO $this->table (username, email, password, role) 
-        VALUES (:username,:email ,:password, :role)";
-
-        $stmt = $this->conn->prepare($sql);
-
-        $stmt->bindParam(':username', $this->username);
-        $stmt->bindParam(':email', $this->email);
-        $stmt->bindParam(':password', $this->password);
-        $stmt->bindParam(':role', $this->role);
-
-        return $stmt->execute();
+            $checkSql = "SELECT COUNT(*) FROM $this->table";
+            $checkStmt = $this->conn->query($checkSql);
+            $userCount = $checkStmt->fetchColumn();
+            
+            if ($userCount === 0) {
+                $this->role = 'supervisor';
+            }
+    
+            $sql = "INSERT INTO $this->table (username, email, password, role)
+                    VALUES (:username, :email, :password, :role)";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':username', $this->username);
+            $stmt->bindParam(':email', $this->email);
+            $stmt->bindParam(':password', $this->password);
+            $stmt->bindParam(':role', $this->role);
+            
+            return $stmt->execute();
     }
 
     public function login ($email, $pass) {

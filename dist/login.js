@@ -87,4 +87,5 @@ export const handleLogin = () => __awaiter(void 0, void 0, void 0, function* () 
             return false;
         }
     }
+    return false;
 });

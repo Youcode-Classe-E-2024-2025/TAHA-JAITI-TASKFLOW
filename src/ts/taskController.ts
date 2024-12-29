@@ -32,7 +32,7 @@ if (!root) {
 }
 
 export const displayTask = (task: task) => {
-    const assignees = task.assignees.split(',').map(a => a.trim());
+    const assignees = task.assignees ? task.assignees.split(',').map(a => a.trim()) : [];
 
     const typeColor = {
         basic: 'slate',

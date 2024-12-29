@@ -194,7 +194,7 @@ const getUsers = async (): Promise<user[] | null> => {
 export const fillSelect = async (select: HTMLSelectElement) => {
     const users: user[] | null = await getUsers();
 
-    if (select && users){
+    if (select && users && users.length > 0){
         select.innerHTML = '';
 
         const options = users.map((user: {id: number, username: string}) => {

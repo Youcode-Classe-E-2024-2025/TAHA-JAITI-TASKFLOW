@@ -18,15 +18,6 @@ interface task {
     assignees: string
 }
 
-interface user {
-    id: number,
-    username: string,
-    email: string,
-    role: 'employee' | 'supervisor',
-    created_at: Date,
-    updated_at: Date
-}
-
 const formDataToObject = (formData: FormData) => {
     return [...formData.entries()].reduce((obj, [key, value]) => {
         obj[key] = value;

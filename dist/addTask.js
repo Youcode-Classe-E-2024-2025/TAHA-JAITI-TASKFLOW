@@ -172,7 +172,7 @@ const getUsers = () => __awaiter(void 0, void 0, void 0, function* () {
     }
     return null;
 });
-const fillSelect = (select) => __awaiter(void 0, void 0, void 0, function* () {
+export const fillSelect = (select) => __awaiter(void 0, void 0, void 0, function* () {
     const users = yield getUsers();
     if (select && users) {
         select.innerHTML = '';

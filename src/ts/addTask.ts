@@ -191,7 +191,7 @@ const getUsers = async (): Promise<user[] | null> => {
     return null;
 };
 
-const fillSelect = async (select: HTMLSelectElement) => {
+export const fillSelect = async (select: HTMLSelectElement) => {
     const users: user[] | null = await getUsers();
 
     if (select && users){

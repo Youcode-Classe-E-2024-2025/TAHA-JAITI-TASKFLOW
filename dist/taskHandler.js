@@ -7,7 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { displayTask, deleteTask } from "./taskController.js";
+import { displayTask, deleteTask, editDisplay } from "./taskController.js";
 export const createTask = (task) => {
     const role = sessionStorage.getItem('role') || null;
     const checkRole = role === "supervisor" ?
@@ -46,7 +46,7 @@ export const createTask = (task) => {
                 <h3 class="text-lg font-semibold text-gray-100">${task.title}</h3>
                 <div class="flex items-center gap-1">
                     ${checkRole}
-                    <button class="p-2 hover:bg-blue-500/10 rounded-full transition-colors">
+                    <button id="editTask" class="p-2 hover:bg-blue-500/10 rounded-full transition-colors">
                         <i class="fa-solid fa-pen-to-square text-blue-400 hover:text-blue-500 transition-colors"></i>
                     </button>
                 </div>
@@ -106,6 +106,15 @@ export const createTask = (task) => {
         delBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             deleteTask(task);
+        });
+    }
+    const editBtn = element.querySelector('#editTask');
+    if (editBtn) {
+        editBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (role === 'supervisor') {
+                editDisplay(task, role);
+            }
         });
     }
     element.addEventListener('click', (e) => {

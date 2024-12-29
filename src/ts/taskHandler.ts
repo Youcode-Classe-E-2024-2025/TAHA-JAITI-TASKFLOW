@@ -1,4 +1,4 @@
-import { displayTask, deleteTask} from "./taskController.js"
+import { displayTask, deleteTask, editDisplay} from "./taskController.js"
 
 interface task {
     id: number,
@@ -57,7 +57,7 @@ export const createTask = (task: task) => {
                 <h3 class="text-lg font-semibold text-gray-100">${task.title}</h3>
                 <div class="flex items-center gap-1">
                     ${checkRole}
-                    <button class="p-2 hover:bg-blue-500/10 rounded-full transition-colors">
+                    <button id="editTask" class="p-2 hover:bg-blue-500/10 rounded-full transition-colors">
                         <i class="fa-solid fa-pen-to-square text-blue-400 hover:text-blue-500 transition-colors"></i>
                     </button>
                 </div>
@@ -118,6 +118,16 @@ export const createTask = (task: task) => {
         delBtn.addEventListener('click', (e: Event) => {
             e.stopPropagation();
             deleteTask(task);
+        });
+    }
+
+    const editBtn = element.querySelector('#editTask') as HTMLButtonElement;
+    if (editBtn){
+        editBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (role === 'supervisor'){
+                editDisplay(task, role);
+            }
         });
     }
 

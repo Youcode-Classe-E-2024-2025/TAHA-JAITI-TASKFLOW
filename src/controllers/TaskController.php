@@ -129,11 +129,10 @@ class TaskController extends Controller {
                 $this->errResponse('empty data');
             }
 
-            $sucess = $this->taskService->updateTask($data);
+            $this->taskService->updateTask($data);
 
-            if ($sucess){
-                $this->successResponse($data, 'Task updated successfuly');
-            }
+            $this->successResponse($data, 'Task updated successfuly');
+
         } catch (Exception $e){
             $this->errResponse($e);
         }

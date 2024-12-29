@@ -1,12 +1,14 @@
 import { fillContainer } from "./main.js";
 import { fillSelect } from "./addTask.js";
 
+type taskType = 'basic' | 'feature' | 'bug';
+
 interface task {
     id: number,
     title: string,
     description: string,
     status: 'to-do' | 'in-progress' | 'completed',
-    type: 'basic' | 'feature' | 'bug',
+    type: taskType,
     deadline: Date,
     created_at: Date,
     updated_at: string,
@@ -22,6 +24,13 @@ interface user{
     created_at: Date,
     updated_at: Date
 }
+
+const formDataToObject = (formData: FormData) => {
+    return [...formData.entries()].reduce((obj, [key, value]) => {
+        obj[key] = value;
+        return obj;
+    }, {} as Record<string, any>);
+};
 
 const root = document.getElementById('root');
 
@@ -238,10 +247,18 @@ export const editDisplay = (task: task, role: 'supervisor' | 'employee') => {
 
     const editForm = element.querySelector('#editForm') as HTMLFormElement;
     editForm.addEventListener('submit', (e) => {
-        // const data = new FormData(editForm);
-        // const assigned = data.getAll('assignUsers');
-        updateTask(task);
+        const data = new FormData(editForm);
+        const type = data.get('type') as taskType;
 
+
+        const taskObj = formDataToObject(data);
+        
+        taskObj.id = task.id;
+        taskObj.assignUsers = data.getAll('assignUsers');
+        
+
+        updateTask(taskObj, type);
+        element.remove();
     });
 
     root.appendChild(element);
@@ -274,14 +291,14 @@ export const deleteTask = async (task: task) => {
     }
 };
 
-export const updateTask = async (task: task) => {
+export const updateTask = async (task: object, type: taskType) => {
     try {
-        const result = await fetch(`http://localhost/api/tasks`, {
+        const result = await fetch(`http://localhost/api/tasks?${type}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({...task})
+            body: JSON.stringify({...task}),
         });
 
         const response = await result.json();

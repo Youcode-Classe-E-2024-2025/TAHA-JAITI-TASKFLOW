@@ -91,9 +91,15 @@ class TaskService extends Service{
     public function updateTask($data){
         $this->requireRole('supervisor');
 
-        if (empty($data->title) || empty($data->description) 
-            ||  empty($data->status) || empty($data->deadline) || empty($data->assignUsers)) {
+        if (empty($data->title) || empty($data->description) || empty($data->type)
+            ||  empty($data->status) || empty($data->deadline) || empty($data->id)) {
             throw new Exception('All fields are required');
+        }
+
+        if ($data->type === 'task'){
+            $this->taskModel->setType(str_secure('basic'));
+        } else {
+            $this->taskModel->setType(str_secure($data->type));
         }
 
         $this->taskModel->setId(str_secure($data->id));
@@ -101,6 +107,7 @@ class TaskService extends Service{
         $this->taskModel->setDesc(str_secure($data->description));
         $this->taskModel->setStatus(str_secure($data->status));
         $this->taskModel->setDeadline(str_secure($data->deadline));
+        
 
         $taskUpdated = $this->taskModel->updateTask();
 
@@ -115,7 +122,5 @@ class TaskService extends Service{
                 $this->taskModel->assignUser(intval($userId), $data->id);
             }
         }
-
-        return true;
     }
 }

@@ -54,7 +54,8 @@ $router->addRoute('DELETE', '/tasks', function() use ($conn) {
 });
 
 $router->addRoute('PATCH', '/tasks', function() use ($conn) {
-    $taskController = new TaskController($conn);
+    $taskType = $_GET['type'] ?? null;
+    $taskController = new TaskController($conn, $taskType);
     $taskController->updateTask();
 });
 

@@ -9,6 +9,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 import { fillContainer } from "./main.js";
 import { fillSelect } from "./addTask.js";
+const formDataToObject = (formData) => {
+    return [...formData.entries()].reduce((obj, [key, value]) => {
+        obj[key] = value;
+        return obj;
+    }, {});
+};
 const root = document.getElementById('root');
 if (!root) {
     throw new Error('root not found');
@@ -209,9 +215,13 @@ export const editDisplay = (task, role) => {
     });
     const editForm = element.querySelector('#editForm');
     editForm.addEventListener('submit', (e) => {
-        // const data = new FormData(editForm);
-        // const assigned = data.getAll('assignUsers');
-        updateTask(task);
+        const data = new FormData(editForm);
+        const type = data.get('type');
+        const taskObj = formDataToObject(data);
+        taskObj.id = task.id;
+        taskObj.assignUsers = data.getAll('assignUsers');
+        updateTask(taskObj, type);
+        element.remove();
     });
     root.appendChild(element);
 };
@@ -236,14 +246,14 @@ export const deleteTask = (task) => __awaiter(void 0, void 0, void 0, function* 
         return null;
     }
 });
-export const updateTask = (task) => __awaiter(void 0, void 0, void 0, function* () {
+export const updateTask = (task, type) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield fetch(`http://localhost/api/tasks`, {
+        const result = yield fetch(`http://localhost/api/tasks?${type}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(Object.assign({}, task))
+            body: JSON.stringify(Object.assign({}, task)),
         });
         const response = yield result.json();
         if (result.ok) {

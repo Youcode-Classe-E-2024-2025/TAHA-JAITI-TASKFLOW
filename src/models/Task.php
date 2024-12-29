@@ -39,6 +39,10 @@ class Task {
     public function setId($id) {
         $this->id = $id;
     }
+
+    public function setType($type){
+        $this->type = $type;
+    }
     
     public function createTask () {
         $sql = "INSERT INTO $this->table (title, description, status,type, deadline, created_by)
@@ -185,7 +189,7 @@ class Task {
     }
 
     public function clearAssignments($id){
-        $sql = "DELETE FROM task_assignments WHERE task_id = :task_id";
+        $sql = "DELETE FROM user_assignments WHERE task_id = :task_id";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':task_id', $id, PDO::PARAM_INT);
         $stmt->execute();

@@ -7,7 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { displayTask, deleteTask, editDisplay } from "./taskController.js";
+import { displayTask, deleteTask, editDisplay, statusDisplay } from "./taskController.js";
 export const createTask = (task) => {
     const role = sessionStorage.getItem('role') || null;
     const checkRole = role === "supervisor" ?
@@ -113,7 +113,10 @@ export const createTask = (task) => {
         editBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             if (role === 'supervisor') {
-                editDisplay(task, role);
+                editDisplay(task);
+            }
+            else if (role === 'employee') {
+                statusDisplay(task);
             }
         });
     }

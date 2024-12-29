@@ -53,6 +53,7 @@ class TaskController extends Controller {
     }
 
     public function changeStatus() {
+        $this->requireLogin();
         try {
             $data = $data = $this->getRequestData();
 

@@ -1,4 +1,4 @@
-import { displayTask, deleteTask, editDisplay} from "./taskController.js"
+import { displayTask, deleteTask, editDisplay, statusDisplay} from "./taskController.js"
 
 interface task {
     id: number,
@@ -126,7 +126,9 @@ export const createTask = (task: task) => {
         editBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             if (role === 'supervisor'){
-                editDisplay(task, role);
+                editDisplay(task);
+            } else if (role === 'employee'){
+                statusDisplay(task);
             }
         });
     }

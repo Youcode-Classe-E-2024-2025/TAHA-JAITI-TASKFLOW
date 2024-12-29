@@ -54,13 +54,15 @@ class TaskService extends Service{
     }
 
     public function changeStatus($data) {
-        if (empty($data->task_id || empty($data->status))){
+        $this->requireLogin();
+        if (empty($data->id || empty($data->status))){
             throw new Exception('All fields are required');
         }
 
-        $this->taskModel->setId(str_secure($data->task_id));
+        $this->taskModel->setId(str_secure($data->id));
         $this->taskModel->setStatus(str_secure($data->status));
-        $this->taskModel->applyStatus();
+        
+        return $this->taskModel->applyStatus();
     }
 
     public function getTasks() {

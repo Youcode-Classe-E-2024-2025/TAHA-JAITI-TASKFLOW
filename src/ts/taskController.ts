@@ -3,11 +3,13 @@ import { fillSelect } from "./addTask.js";
 
 type taskType = 'basic' | 'feature' | 'bug';
 
+type statusType = 'to-do' | 'in-progress' | 'completed'
+
 interface task {
     id: number,
     title: string,
     description: string,
-    status: 'to-do' | 'in-progress' | 'completed',
+    status: statusType,
     type: taskType,
     deadline: Date,
     created_at: Date,
@@ -16,7 +18,7 @@ interface task {
     assignees: string
 }
 
-interface user{
+interface user {
     id: number,
     username: string,
     email: string,
@@ -34,7 +36,7 @@ const formDataToObject = (formData: FormData) => {
 
 const root = document.getElementById('root');
 
-if (!root){
+if (!root) {
     throw new Error('root not found');
 }
 
@@ -123,7 +125,7 @@ export const displayTask = (task: task) => {
                         </div>
     `;
 
-    
+
 
     const closeBtn = element.querySelector('#closeDisplay') as HTMLButtonElement;
     closeBtn.addEventListener('click', () => {
@@ -139,11 +141,11 @@ export const displayTask = (task: task) => {
     root.appendChild(element);
 };
 
-export const editDisplay = (task: task, role: 'supervisor' | 'employee') => {
+export const editDisplay = (task: task) => {
     const element = document.createElement('section');
     element.id = 'editContainer';
     element.className = 'fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 p-4';
-    element.innerHTML = `<div class="bg-gray-800/95 rounded-xl shadow-2xl w-full max-w-xl border border-gray-700 transform transition-all animate-fadeIn">
+    element.innerHTML = `<div class="bg-gray-800/95 rounded-xl shadow-2xl w-full max-w-xl border border-gray-700 transform transition-all">
                             <form id="editForm" class="divide-y divide-gray-700">
                                 <!-- Header -->
                                 <div class="flex items-center justify-between p-6">
@@ -233,7 +235,7 @@ export const editDisplay = (task: task, role: 'supervisor' | 'employee') => {
     fillSelect(select);
 
     const closeBtn = element.querySelector('#closeEdit') as HTMLButtonElement;
-    if (closeBtn){
+    if (closeBtn) {
         closeBtn.addEventListener('click', (e) => {
             element.remove();
         });
@@ -247,15 +249,16 @@ export const editDisplay = (task: task, role: 'supervisor' | 'employee') => {
 
     const editForm = element.querySelector('#editForm') as HTMLFormElement;
     editForm.addEventListener('submit', (e) => {
+        e.preventDefault();
         const data = new FormData(editForm);
         const type = data.get('type') as taskType;
 
 
         const taskObj = formDataToObject(data);
-        
+
         taskObj.id = task.id;
         taskObj.assignUsers = data.getAll('assignUsers');
-        
+
 
         updateTask(taskObj, type);
         element.remove();
@@ -264,7 +267,81 @@ export const editDisplay = (task: task, role: 'supervisor' | 'employee') => {
     root.appendChild(element);
 };
 
+export const statusDisplay = (task: task) => {
+    const element = document.createElement('section');
+    element.id = 'statusEditContainer'
+    element.className = `fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 p-4`;
+    element.innerHTML = `<div class="bg-gray-800/95 rounded-xl shadow-2xl w-full max-w-md border border-gray-700 transform transition-all">
+                                <form id="statusEditForm" class="divide-y divide-gray-700">
+                                    <!-- Header -->
+                                    <div class="flex items-center justify-between p-6">
+                                        <div>
+                                            <h2 class="text-xl font-semibold text-gray-100">Update Task Status</h2>
+                                            <p class="text-sm text-gray-400 mt-1">Change the current status of this task</p>
+                                        </div>
+                                        <button id="closeStatusEdit" class="p-2 hover:bg-gray-700 rounded-full transition-colors text-gray-400 hover:text-gray-200">
+                                            <i class="fa-solid fa-times text-xl"></i>
+                                        </button>
+                                    </div>
 
+                                    <!-- Form Body -->
+                                    <div class="p-6">
+                                        <!-- Task Info -->
+                                        <div class="mb-6">
+                                            <h3 id="statusTaskTitle" class="text-lg font-medium text-gray-200">${task.title}</h3>
+                                            <p id="statusTaskType" class="text-sm text-gray-400">Task Type: <span class="text-purple-400 font-bold">${task.type.toUpperCase()}</span></p>
+                                        </div>
+
+                                        <!-- Status Select -->
+                                        <div class="space-y-1">
+                                            <label for="statusEditSelect" class="block text-sm font-medium text-gray-300">
+                                                <i class="fa-solid fa-list-check mr-2 text-purple-400"></i>Update Status
+                                            </label>
+                                            <select id="statusEditSelect" name="status" required class="input">
+                                                <option value="to-do">To-Do</option>
+                                                <option value="in-progress">In-Progress</option>
+                                                <option value="completed">Completed</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <!-- Footer -->
+                                    <div class="p-6">
+                                        <button type="submit" class="w-full btn_primary flex items-center justify-center gap-2">
+                                            <i class="fa-solid fa-arrow-right"></i>
+                                            Update Status
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>`
+
+    const closeBtn = element.querySelector('#closeStatusEdit') as HTMLButtonElement;
+    if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+            element.remove();
+        });
+    }
+
+    element.addEventListener('click', (e: Event) => {
+        if (e.target === element) {
+            closeBtn.click();
+        }
+    });
+
+    const form = element.querySelector('#statusEditForm') as HTMLFormElement;
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const data = new FormData(form);
+        const newStatus = data.get('status') as statusType;
+
+        updateStatus(task, newStatus);
+
+        element.remove();
+    });
+
+    root.appendChild(element);
+};
 
 
 export const deleteTask = async (task: task) => {
@@ -274,18 +351,18 @@ export const deleteTask = async (task: task) => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({...task})
+            body: JSON.stringify({ ...task })
         });
 
         const response = await result.json();
 
-        if (result.ok){
+        if (result.ok) {
             alert(response.message);
             fillContainer();
             return true;
         }
 
-    } catch (err){
+    } catch (err) {
         console.error(err);
         return null;
     }
@@ -298,18 +375,41 @@ export const updateTask = async (task: object, type: taskType) => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({...task}),
+            body: JSON.stringify({ ...task }),
         });
 
         const response = await result.json();
 
-        if (result.ok){
+        if (result.ok) {
             alert(response.message);
             fillContainer();
             return true;
         }
 
-    } catch (err){
+    } catch (err) {
+        console.error(err);
+        return null;
+    }
+};
+
+export const updateStatus = async (task: task, newStatus: statusType) => {
+    try {
+        const result = await fetch(`http://localhost/api/changestatus`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id: task.id, status: newStatus }),
+        });
+
+        const response = await result.json();
+
+        if (result.ok) {
+            fillContainer();
+            return true;
+        }
+
+    } catch (err) {
         console.error(err);
         return null;
     }

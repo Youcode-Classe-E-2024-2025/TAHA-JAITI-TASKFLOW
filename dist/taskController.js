@@ -111,11 +111,11 @@ export const displayTask = (task) => {
     });
     root.appendChild(element);
 };
-export const editDisplay = (task, role) => {
+export const editDisplay = (task) => {
     const element = document.createElement('section');
     element.id = 'editContainer';
     element.className = 'fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 p-4';
-    element.innerHTML = `<div class="bg-gray-800/95 rounded-xl shadow-2xl w-full max-w-xl border border-gray-700 transform transition-all animate-fadeIn">
+    element.innerHTML = `<div class="bg-gray-800/95 rounded-xl shadow-2xl w-full max-w-xl border border-gray-700 transform transition-all">
                             <form id="editForm" class="divide-y divide-gray-700">
                                 <!-- Header -->
                                 <div class="flex items-center justify-between p-6">
@@ -215,12 +215,81 @@ export const editDisplay = (task, role) => {
     });
     const editForm = element.querySelector('#editForm');
     editForm.addEventListener('submit', (e) => {
+        e.preventDefault();
         const data = new FormData(editForm);
         const type = data.get('type');
         const taskObj = formDataToObject(data);
         taskObj.id = task.id;
         taskObj.assignUsers = data.getAll('assignUsers');
         updateTask(taskObj, type);
+        element.remove();
+    });
+    root.appendChild(element);
+};
+export const statusDisplay = (task) => {
+    const element = document.createElement('section');
+    element.id = 'statusEditContainer';
+    element.className = `fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 p-4`;
+    element.innerHTML = `<div class="bg-gray-800/95 rounded-xl shadow-2xl w-full max-w-md border border-gray-700 transform transition-all">
+                                <form id="statusEditForm" class="divide-y divide-gray-700">
+                                    <!-- Header -->
+                                    <div class="flex items-center justify-between p-6">
+                                        <div>
+                                            <h2 class="text-xl font-semibold text-gray-100">Update Task Status</h2>
+                                            <p class="text-sm text-gray-400 mt-1">Change the current status of this task</p>
+                                        </div>
+                                        <button id="closeStatusEdit" class="p-2 hover:bg-gray-700 rounded-full transition-colors text-gray-400 hover:text-gray-200">
+                                            <i class="fa-solid fa-times text-xl"></i>
+                                        </button>
+                                    </div>
+
+                                    <!-- Form Body -->
+                                    <div class="p-6">
+                                        <!-- Task Info -->
+                                        <div class="mb-6">
+                                            <h3 id="statusTaskTitle" class="text-lg font-medium text-gray-200">${task.title}</h3>
+                                            <p id="statusTaskType" class="text-sm text-gray-400">Task Type: <span class="text-purple-400 font-bold">${task.type.toUpperCase()}</span></p>
+                                        </div>
+
+                                        <!-- Status Select -->
+                                        <div class="space-y-1">
+                                            <label for="statusEditSelect" class="block text-sm font-medium text-gray-300">
+                                                <i class="fa-solid fa-list-check mr-2 text-purple-400"></i>Update Status
+                                            </label>
+                                            <select id="statusEditSelect" name="status" required class="input">
+                                                <option value="to-do">To-Do</option>
+                                                <option value="in-progress">In-Progress</option>
+                                                <option value="completed">Completed</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <!-- Footer -->
+                                    <div class="p-6">
+                                        <button type="submit" class="w-full btn_primary flex items-center justify-center gap-2">
+                                            <i class="fa-solid fa-arrow-right"></i>
+                                            Update Status
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>`;
+    const closeBtn = element.querySelector('#closeStatusEdit');
+    if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+            element.remove();
+        });
+    }
+    element.addEventListener('click', (e) => {
+        if (e.target === element) {
+            closeBtn.click();
+        }
+    });
+    const form = element.querySelector('#statusEditForm');
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const data = new FormData(form);
+        const newStatus = data.get('status');
+        updateStatus(task, newStatus);
         element.remove();
     });
     root.appendChild(element);
@@ -258,6 +327,26 @@ export const updateTask = (task, type) => __awaiter(void 0, void 0, void 0, func
         const response = yield result.json();
         if (result.ok) {
             alert(response.message);
+            fillContainer();
+            return true;
+        }
+    }
+    catch (err) {
+        console.error(err);
+        return null;
+    }
+});
+export const updateStatus = (task, newStatus) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield fetch(`http://localhost/api/changestatus`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id: task.id, status: newStatus }),
+        });
+        const response = yield result.json();
+        if (result.ok) {
             fillContainer();
             return true;
         }
